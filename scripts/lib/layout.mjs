@@ -18,6 +18,9 @@ export function canonicalUrl(path) {
   return SITE + path.replace(/(^|\/)index\.html$/, '$1');
 }
 
+/** The picture shown when a page is shared (1280 × 640 PNG; most sites do not show SVG). */
+export const SOCIAL_IMAGE = { path: 'social.png', width: 1280, height: 640, alt: 'docvane: fill Word, PowerPoint and Excel templates with one syntax' };
+
 /** Content-Security-Policy of every page: nothing is loaded from other origins. */
 export const CSP = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'";
 
@@ -65,6 +68,11 @@ export function page({ title, description, path, root, active = '', body, toc = 
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${escapeHtml(url)}">
+<meta property="og:image" content="${escapeHtml(SITE + SOCIAL_IMAGE.path)}">
+<meta property="og:image:width" content="${String(SOCIAL_IMAGE.width)}">
+<meta property="og:image:height" content="${String(SOCIAL_IMAGE.height)}">
+<meta property="og:image:alt" content="${escapeHtml(SOCIAL_IMAGE.alt)}">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${root}favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${root}style.css">
 ${scripts.map((s) => `<script type="module" src="${s}"></script>`).join('\n')}

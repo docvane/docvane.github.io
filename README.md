@@ -12,7 +12,7 @@ node --test test/*.test.mjs              # tests of the Markdown converter and t
 
 - No dependencies: the generator, the Markdown converter and the tar reader are in `scripts/`. They are copied from the site of xlvane ([xlvane/xlvane.github.io](https://github.com/xlvane/xlvane.github.io), MIT, commit 9bb6269) and adapted; each copied file says so.
 - The documentation pages are the Markdown files of the packages, so they match that version.
-- For search engines, the build writes `robots.txt` and `sitemap.xml`, and each page carries its canonical address and Open Graph tags; `check.mjs` checks that they agree.
+- For search engines, the build writes `robots.txt` and `sitemap.xml`, and each page carries its canonical address and Open Graph tags, with `src/social.png` (1280 × 640) as the picture of shared links; `check.mjs` checks that they agree. `404.html` is the page GitHub Pages shows for an address that does not exist.
 - The demo uses the browser code of the package (`docs/vendor/docvane/`), of xlvane (`docs/vendor/xlvane/`) and fflate's browser build (`docs/vendor/fflate/`), and the offer template of the repository (`docs/demo/sample/`). Nothing is loaded from other sites, and every page sets a Content-Security-Policy that allows only this site.
 
 ## Before a version is on npm
