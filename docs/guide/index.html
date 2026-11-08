@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Guide - docvane</title>
+<meta name="description" content="Guide of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<link rel="canonical" href="https://docvane.github.io/guide/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="docvane">
+<meta property="og:title" content="Guide - docvane">
+<meta property="og:description" content="Guide of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<meta property="og:url" content="https://docvane.github.io/guide/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>docvane</a>
+    <span class="version" title="Version, not yet on npm">1.0.0</span>
+    <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/docvane">GitHub</a><a href="https://www.npmjs.com/package/docvane">npm</a></nav>
+  </div>
+</header>
+<div class="layout with-toc">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-2"><a href="#the-command-line-in-5-minutes">The command line in 5 minutes</a></li><li class="toc-2"><a href="#license">License</a></li></ul></nav>
+<main id="main">
+<nav class="guide-nav" aria-label="Guide"><a href="index.html" aria-current="page">Guide</a><a href="syntax.html">Template syntax</a><a href="errors.html">Errors and warnings</a><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a><a href="cli-json.html">Command line JSON</a><a href="mcp.html">@docvane/mcp (MCP server)</a><a href="agent-skill.html">Agent Skill</a></nav><article class="doc"><p>&lt;img src=&quot;https://raw.githubusercontent.com/DevXord/docvane/main/assets/logo.svg&quot; alt=&quot;&quot; width=&quot;96&quot; height=&quot;96&quot;&gt;</p>
+<h1 id="docvane"><a class="anchor" href="#docvane" aria-hidden="true">#</a>docvane</h1>
+<p><a href="https://github.com/DevXord/docvane/actions/workflows/ci.yml/badge.svg?branch=main">![ci</a>](https://github.com/DevXord/docvane/actions/workflows/ci.yml) <a href="https://img.shields.io/npm/v/docvane?color=0284c7&amp;label=npm">![npm</a>](https://www.npmjs.com/package/docvane) <a href="https://img.shields.io/badge/node-%E2%89%A522-0284c7">![node</a>](https://nodejs.org/) <a href="https://img.shields.io/badge/license-MIT-0284c7">![license</a>](https://github.com/DevXord/docvane/blob/main/packages/docvane/LICENSE)</p>
+<p>&gt; Fill Word, PowerPoint and Excel templates with one syntax, treating templates and data as untrusted.</p>
+<p>Sibling project: <a href="https://xlvane.github.io/">xlvane</a>, the Excel library docvane uses for workbooks. Documentation: <a href="syntax.html">template syntax</a>.</p>
+<p>A template engine for Word, PowerPoint and Excel files, with one syntax for DOCX, PPTX and XLSX. Templates and data are treated as untrusted. MIT license, ESM only.</p>
+<p><strong>Status:</strong> 1.0.0. docvane handles Word, PowerPoint and Excel templates: <code>inspect</code> lists their tags, loops and conditions and returns a JSON Schema of the data they need, and <code>render</code> fills them, with images, links and Markdown in documents and presentations, repeated slides, and in workbooks numbers and dates as typed cells and repeated rows whose totals follow. <code>validate</code> checks data against a template without writing a file, with the path of every problem in the data, and <code>templateSchema</code> gives the same check as a Standard Schema. <code>preview</code> returns the text of a result, and the <code>docvane</code> command does all of this from the terminal.</p>
+<pre><code class="language-ts">import { readFileSync } from &#39;node:fs&#39;;
+import { inspect } from &#39;docvane&#39;;
+
+const { tags, sections, schema } = inspect(readFileSync(&#39;offer.docx&#39;));
+for (const tag of tags) console.log(tag.raw, &#39;-&#39;, tag.location.description);
+// {%logo} - body, paragraph 1
+// {number} - body, paragraph 2
+// {customer.name} - body, paragraph 3
+// …
+// {#items} - body, table 1 row 2 cell 1, paragraph 1
+console.log(JSON.stringify(schema, null, 2));</code></pre>
+<pre><code class="language-ts">import { readFileSync, writeFileSync } from &#39;node:fs&#39;;
+import { render } from &#39;docvane&#39;;
+
+// offer.docx and logo.png are in examples/offer of the repository.
+const result = render(readFileSync(&#39;offer.docx&#39;), {
+  logo: readFileSync(&#39;logo.png&#39;),
+  number: &#39;2026/11/001&#39;,
+  customer: { name: &#39;Anna Nowak&#39;, company: &#39;Nowak Design&#39; },
+  date: &#39;2026-11-06&#39;,
+  items: [{ name: &#39;Desk&#39;, qty: 1, price: 1200, total: 1200 }, { name: &#39;Chair&#39;, qty: 4, price: 349.99, total: 1399.96 }],
+  sum: 2599.96,
+  vip: true,
+  notes: &#39;**Delivery** in 5 working days.\n\n- Assembly included&#39;,
+  author: &#39;Jan Kowalski&#39;,
+}, { locale: &#39;pl-PL&#39; });
+writeFileSync(&#39;offer-anna.docx&#39;, result);</code></pre>
+<p>In the template: <code>For {customer.name}, {customer.company}</code>, a table row with <code>{#items}{name}</code>, <code>{qty}</code>, <code>{price | currency(&quot;EUR&quot;)}</code> and <code>{total | currency(&quot;EUR&quot;)}{/items}</code>, <code>{#vip}As a VIP customer you get free delivery.{/vip}</code> and <code>{~notes}</code>. Expressions such as <code>{#total &gt; 1000}…{/total &gt; 1000}</code> and the formatters <code>upper</code>, <code>lower</code>, <code>capitalize</code>, <code>trim</code>, <code>default</code>, <code>number</code>, <code>percent</code>, <code>currency</code>, <code>date</code> and <code>link</code> are available; nothing in a template can run code. <code>{%logo}</code> inserts an image from bytes or a data URL, and <code>{~notes}</code> Markdown with the template&#39;s own heading and list styles. docvane never downloads anything: images from addresses go through <code>renderAsync</code> with a <code>fetchImage</code> function you pass.</p>
+<p>Tags are found however Word or LibreOffice split their text into pieces of formatting, in the main text, tables, text boxes, headers, footers, footnotes and endnotes. Problems with tags are reported together, each with its place in the document and a hint.</p>
+<ul><li><a href="syntax.html">Template syntax</a></li><li><a href="errors.html">Errors and warnings</a></li><li><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a></li></ul>
+<p>The package also contains <code>docs/</code> (template syntax, errors, migrating from docxtemplater, the JSON output of the command line), the Agent Skill <code>skills/docvane/SKILL.md</code> and <code>llms-full.txt</code> (all of it in one file), for reading without network access: after installing, they are in <code>node_modules/docvane/</code>. Agent clients look for skills in their own folders, not in <code>node_modules</code>, so to use the skill, copy <code>node_modules/docvane/skills/docvane</code> into the skills folder of the client (for example <code>.agents/skills/docvane</code>).</p>
+<p>XLSX templates and the low-level OOXML code come from <a href="https://github.com/DevXord/xlvane">xlvane</a>, the sister project for working with spreadsheet files in code.</p>
+<h2 id="the-command-line-in-5-minutes"><a class="anchor" href="#the-command-line-in-5-minutes" aria-hidden="true">#</a>The command line in 5 minutes</h2>
+<p>The package installs a <code>docvane</code> command. Take the offer template of the repository, <a href="https://github.com/DevXord/docvane/tree/main/examples/offer">examples/offer</a>: <code>offer.docx</code>, its data <code>data.json</code> and <code>logo.png</code>, and run in their folder:</p>
+<pre><code class="language-bash">npx docvane inspect offer.docx</code></pre>
+<p>It lists the data the template needs (<code>customer.name</code>, <code>items</code> with <code>name</code>, <code>qty</code>, <code>price</code>, <code>total</code>, an image <code>logo</code>, Markdown <code>notes</code>, …), its loops and conditions, and every tag with its place, such as <code>body, table 1 row 2 cell 1, paragraph 1</code>. <code>--schema</code> prints the JSON Schema of the data.</p>
+<pre><code class="language-bash">npx docvane validate offer.docx data.json</code></pre>
+<p>It checks the data without writing anything. With a field missing or misspelt, every problem is listed with the path in the data, the place in the template and a hint; for example, with <code>&quot;customer&quot;: { &quot;nme&quot;: &quot;Anna Nowak&quot; }</code>:</p>
+<pre><code class="language-text">  1. The data has no &quot;customer.name&quot;, which &quot;{customer.name}&quot; needs.
+     Where: customer.name in the data; body, paragraph 3, character 5
+     Fix:   Did you mean &quot;nme&quot;? Add &quot;customer.name&quot; to the data, give the tag a default (|
+            default(&quot;-&quot;)), or render with { missing: &quot;empty&quot; }. The data has here: nme.</code></pre>
+<pre><code class="language-bash">npx docvane render offer.docx data.json
+npx docvane preview offer-filled.docx</code></pre>
+<p><code>render</code> writes <code>offer-filled.docx</code> (<code>--output</code> names another file; an existing file is replaced only with <code>--force</code>, by a new file renamed over it, and never through a link; <code>--dry-run</code> checks without writing; <code>--locale pl-PL</code> gives Polish numbers and dates). The image <code>&quot;logo&quot;: &quot;logo.png&quot;</code> is a file next to the data file: files must stay inside that folder, and images given as http(s) addresses are downloaded only with <code>--fetch-images</code>. With <code>--fetch-images</code>, every address in the data is requested, internal ones included, so use it only with data you trust. Templates, data files and stdin are read up to 256 MiB, and only from regular files. <code>preview</code> prints the text of the result, so it can be checked without Word.</p>
+<p>Every command takes <code>--json</code> and then prints one JSON document described in <a href="cli-json.html">docs/cli-json.md</a>. <code>docvane help &lt;command&gt;</code> shows the options and examples. Exit codes: 0 success, 1 <code>validate</code> found problems, 2 usage error, 3 input, file, template or data error.</p>
+<h2 id="license"><a class="anchor" href="#license" aria-hidden="true">#</a>License</h2>
+<p><a href="https://github.com/DevXord/docvane/blob/b0d17da6825852e51e27bcadb29e42a4fe8e78bd/packages/docvane/LICENSE">MIT</a></p><p class="source">Source: <a href="https://github.com/DevXord/docvane/blob/b0d17da6825852e51e27bcadb29e42a4fe8e78bd/packages/docvane/README.md">packages/docvane/README.md</a> (version 1.0.0)</p></article>
+</main>
+</div>
+<footer class="site-footer">
+  <p>docvane 1.0.0, MIT License. Pages built from the packages of commit b0d17da, before their release on npm. <a href="https://github.com/DevXord/docvane">Source on GitHub</a> · <a href="https://github.com/DevXord/docvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+</footer>
+</body>
+</html>

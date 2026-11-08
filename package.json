@@ -1,0 +1,15 @@
+{
+  "name": "docvane-site",
+  "private": true,
+  "type": "module",
+  "description": "The website of docvane, published by GitHub Pages from docs/.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs --version",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}

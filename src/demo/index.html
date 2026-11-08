@@ -1,0 +1,41 @@
+<h1>Fill a template in the browser</h1>
+<p>This page runs docvane in your browser. The template is read with <code>File.arrayBuffer()</code>, the result is made on this computer, and nothing is uploaded: the page loads no code or data from other sites (its Content-Security-Policy allows only this site).</p>
+
+<label class="drop" id="drop">
+  <input type="file" id="file" accept=".docx,.docm,.dotx,.dotm,.pptx,.xlsx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+  <strong>Choose a Word, PowerPoint or Excel template</strong> or drop it here
+</label>
+<div class="row">
+  <button type="button" id="sample">Use the sample offer</button>
+  <span class="status" id="status" role="status"></span>
+</div>
+
+<div id="error" class="notice error" hidden></div>
+
+<section id="result" hidden>
+  <h2>Data</h2>
+  <p class="status">JSON for the template. For a new template the fields come from its schema; images must be data URLs (<code>data:image/png;base64,…</code>).</p>
+  <label for="data" class="status">Data (JSON)</label>
+  <textarea id="data" spellcheck="false"></textarea>
+  <div class="row">
+    <label for="locale">Locale</label>
+    <select id="locale"><option value="en-US">en-US</option><option value="en-GB">en-GB</option><option value="de-DE">de-DE</option><option value="fr-FR">fr-FR</option><option value="pl-PL">pl-PL</option></select>
+    <button type="button" id="validate">Validate</button>
+    <button type="button" id="render" class="primary">Fill and download</button>
+  </div>
+  <div id="problems" hidden></div>
+
+  <section id="output" hidden>
+    <h2>Text of the result</h2>
+    <p class="status">What <code>preview(result)</code> returns, to check the result without an office application.</p>
+    <pre class="text-preview"><code id="preview"></code></pre>
+  </section>
+
+  <h2>Tags</h2>
+  <div id="warnings" class="notice warn" hidden></div>
+  <div class="table"><table id="tags"><thead><tr><th>Tag</th><th>Kind</th><th>Place</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>Data the template needs</h2>
+  <p class="status">The JSON Schema that <code>inspect(template).schema</code> returns (<a href="../guide/syntax.html#the-data-schema">how it is made</a>).</p>
+  <details><summary>Show the schema</summary><pre><code id="schema"></code></pre></details>
+</section>

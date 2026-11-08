@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>@docvane/mcp (MCP server) - docvane</title>
+<meta name="description" content="@docvane/mcp (MCP server) of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<link rel="canonical" href="https://docvane.github.io/guide/mcp.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="docvane">
+<meta property="og:title" content="@docvane/mcp (MCP server) - docvane">
+<meta property="og:description" content="@docvane/mcp (MCP server) of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<meta property="og:url" content="https://docvane.github.io/guide/mcp.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>docvane</a>
+    <span class="version" title="Version, not yet on npm">1.0.0</span>
+    <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/docvane">GitHub</a><a href="https://www.npmjs.com/package/docvane">npm</a></nav>
+  </div>
+</header>
+<div class="layout with-toc">
+<nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-2"><a href="#tools">Tools</a></li><li class="toc-2"><a href="#license">License</a></li></ul></nav>
+<main id="main">
+<nav class="guide-nav" aria-label="Guide"><a href="index.html">Guide</a><a href="syntax.html">Template syntax</a><a href="errors.html">Errors and warnings</a><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a><a href="cli-json.html">Command line JSON</a><a href="mcp.html" aria-current="page">@docvane/mcp (MCP server)</a><a href="agent-skill.html">Agent Skill</a></nav><article class="doc"><h1 id="docvanemcp"><a class="anchor" href="#docvanemcp" aria-hidden="true">#</a>@docvane/mcp</h1>
+<p>An MCP server for <a href="https://github.com/DevXord/docvane">docvane</a>: tools to inspect Word, PowerPoint and Excel templates, validate data, render and read the result as text. It is read-only by default and limited to the directories given at start.</p>
+<p><strong>Status:</strong> 1.0.0, released together with docvane in the same version.</p>
+<pre><code class="language-bash">npx @docvane/mcp --root ./templates                 # read-only
+npx @docvane/mcp --root ./templates --allow-write   # also the render tool</code></pre>
+<p>The <code>docvane-mcp</code> command serves the tools over stdio with the official MCP SDK. Options: <code>--root &lt;dir&gt;</code> (required, repeatable; an empty value is refused), <code>--allow-write</code>, <code>--max-file-size &lt;bytes&gt;</code> (default 50 MiB), <code>--max-response-chars &lt;n&gt;</code> (default 100 000; it limits the text of a result and its structured content, which is replaced by a note when it is longer). One message may be as large as a file of <code>--max-file-size</code> written as a base64 data URL; a larger one is reported on stderr and the server ends with exit code 1. Exit codes: 0 when the client closes the connection, 1 for a message that is too large, 2 for wrong arguments, 3 for a root that cannot be used. A client configuration usually runs <code>npx</code> with the arguments <code>[&quot;@docvane/mcp&quot;, &quot;--root&quot;, &quot;/path/to/templates&quot;]</code>.</p>
+<h2 id="tools"><a class="anchor" href="#tools" aria-hidden="true">#</a>Tools</h2>
+<div class="table"><table><thead><tr><th>Tool</th><th>Writes</th><th>What it does</th></tr></thead><tbody><tr><td><code>inspect_template</code></td><td>no</td><td>The JSON Schema of the data a template needs, its tags with their places, warnings</td></tr><tr><td><code>validate_data</code></td><td>no</td><td>Checks data (inline, or a JSON file) against a template: every problem with the path of the field in the data, the place in the template and a hint</td></tr><tr><td><code>preview_text</code></td><td>no</td><td>The text of a document, presentation or workbook, part by part</td></tr><tr><td><code>render</code></td><td>yes, only with <code>--allow-write</code></td><td>Fills a template and writes the result; replaces a file only with <code>overwrite: true</code></td></tr></tbody></table></div>
+<p>Files are read and written only inside the root directories (<code>--root</code>, repeatable); relative paths start at the first one. Links that point out of the roots, files with more than one name (hard links), folders, devices and pipes are refused; on Linux the opened file is checked again, so a folder swapped for a link between the check and the opening is refused too. <code>render</code> writes only files with the extension of the template (<code>.docx</code>, <code>.docm</code>, <code>.dotx</code>, <code>.dotm</code>, <code>.pptx</code> or <code>.xlsx</code>, after <code>.</code> and <code>..</code> are resolved), and replaces a file by renaming a new one over it, never by changing it in place, keeping its permissions. Whether a folder outside the roots exists is never told. The roots should not be writable by programs you do not trust. Images in the data must be data URLs: the server downloads nothing and reads no file on behalf of the data.</p>
+<p>In code, <code>createServer(options)</code> returns an <code>McpServer</code> of the SDK to connect to any transport, and <code>createTools(sandbox)</code> the tools without the SDK:</p>
+<pre><code class="language-ts">import { createTools, Sandbox } from &#39;@docvane/mcp&#39;;
+
+const tools = createTools(new Sandbox({ roots: [&#39;./templates&#39;] }));
+const inspectTool = tools.find((tool) =&gt; tool.name === &#39;inspect_template&#39;);
+console.log(inspectTool?.handler({ path: &#39;offer.docx&#39; }).content[0]?.text);</code></pre>
+<h2 id="license"><a class="anchor" href="#license" aria-hidden="true">#</a>License</h2>
+<p><a href="https://github.com/DevXord/docvane/blob/b0d17da6825852e51e27bcadb29e42a4fe8e78bd/packages/mcp/LICENSE">MIT</a></p><p class="source">Source: <a href="https://github.com/DevXord/docvane/blob/b0d17da6825852e51e27bcadb29e42a4fe8e78bd/packages/mcp/README.md">packages/mcp/README.md</a> (version 1.0.0)</p></article>
+</main>
+</div>
+<footer class="site-footer">
+  <p>docvane 1.0.0, MIT License. Pages built from the packages of commit b0d17da, before their release on npm. <a href="https://github.com/DevXord/docvane">Source on GitHub</a> · <a href="https://github.com/DevXord/docvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+</footer>
+</body>
+</html>

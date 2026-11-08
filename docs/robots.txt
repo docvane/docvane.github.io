@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://docvane.github.io/sitemap.xml
