@@ -26,7 +26,7 @@
 <header class="site-header">
   <div class="bar">
     <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>tplvane</a>
-    <span class="version" title="Version, not yet on npm">1.0.0</span>
+    <span class="version" title="Version on npm">1.0.0</span>
     <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/tplvane">GitHub</a><a href="https://www.npmjs.com/package/tplvane">npm</a></nav>
   </div>
 </header>
@@ -51,11 +51,11 @@ const result = render(templateBytes, data);</code></pre>
 <h2 id="not-available"><a class="anchor" href="#not-available" aria-hidden="true">#</a>Not available</h2>
 <div class="table"><table><thead><tr><th>docxtemplater</th><th>Why, and what to do</th></tr></thead><tbody><tr><td><code>{@rawXml}</code></td><td>Data cannot insert raw XML: tplvane escapes every value, so that data cannot change the structure of a document. Use Markdown (<code>{~name}</code>) for formatted text.</td></tr><tr><td><code>{-w:p loop}</code> and other element names</td><td>Loops over a named element are not available. Put the tags of <code>{#loop}</code> alone in their paragraphs, or in the cells of a table row.</td></tr><tr><td>Functions in the data (lambdas)</td><td>Not available: tplvane never calls data. Compute the values before rendering.</td></tr><tr><td>Promises in the data with <code>renderAsync</code></td><td>Not available: resolve them before rendering. tplvane&#39;s <code>renderAsync</code> exists only to fetch images.</td></tr><tr><td>Other tags of paid modules (<code>{:…}</code>, <code>{$chart}</code>, <code>{r@…}</code>, <code>{?…}</code>, <code>{&gt;…}</code>)</td><td>Not available.</td></tr><tr><td><code>syntax</code> options (<code>allowUnopenedTag</code>, <code>allowUnclosedTag</code>, <code>changeDelimiterPrefix</code>)</td><td>tplvane reports every unopened, unclosed or crossed tag with its place and a hint; it does not render a template with such problems. A tag between equals signs always changes the delimiters.</td></tr><tr><td><code>parser</code>, <code>modules</code>, <code>errorLogging</code></td><td>Not available. Problems are thrown as a <code>TvError</code> with a code, a place in the template and a hint, all of them at once; warnings go to the <code>onWarning</code> option.</td></tr></tbody></table></div>
 <h2 id="errors"><a class="anchor" href="#errors" aria-hidden="true">#</a>Errors</h2>
-<p>docxtemplater and tplvane both report template errors, but the format differs. tplvane throws <code>TV_E_TEMPLATE_INVALID</code> for the template and <code>TV_E_DATA_INVALID</code> for the data, each listing every problem in <code>errors</code> with a code, a place (<code>body, table 1 row 2 cell 1, paragraph 1</code>) and a hint; see <a href="errors.html">the error catalogue</a>.</p><p class="source">Source: <a href="https://github.com/DevXord/tplvane/blob/b51002257898e4ff4401d27374d05f1f4ddbf929/docs/migrating-from-docxtemplater.md">docs/migrating-from-docxtemplater.md</a> (version 1.0.0)</p></article>
+<p>docxtemplater and tplvane both report template errors, but the format differs. tplvane throws <code>TV_E_TEMPLATE_INVALID</code> for the template and <code>TV_E_DATA_INVALID</code> for the data, each listing every problem in <code>errors</code> with a code, a place (<code>body, table 1 row 2 cell 1, paragraph 1</code>) and a hint; see <a href="errors.html">the error catalogue</a>.</p><p class="source">Source: <a href="https://github.com/DevXord/tplvane/blob/v1.0.0/docs/migrating-from-docxtemplater.md">docs/migrating-from-docxtemplater.md</a> (version 1.0.0)</p></article>
 </main>
 </div>
 <footer class="site-footer">
-  <p>tplvane 1.0.0, MIT License. Pages built from the packages of commit b510022, before their release on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+  <p>tplvane 1.0.0, MIT License. Pages built from the packages published on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
 </footer>
 </body>
 </html>

@@ -7895,6 +7895,42 @@ function extendTables(bytes, sheet, last, added, limits) {
 		};
 	}));
 }
+// src/xlsx/workbook-props.ts
+/** The attribute with the white space before it, in either quotes. */
+const DATE_COMPATIBILITY = /\s+dateCompatibility\s*=\s*(?:"[^"]*"|'[^']*')/;
+/** The workbook without workbookPr/@dateCompatibility; the bytes as they are when it has none. */
+function dropDateCompatibility(bytes, limits) {
+	const zip = openZip(bytes, limits);
+	const pkg = openPackage(zip, limits);
+	const book = pkg.relationships(null).find((r) => !r.external && r.type.endsWith("/officeDocument"));
+	if (book === void 0 || !pkg.hasPart(book.target)) return bytes;
+	const xml = normalizeLineEnds(pkg.readXml(book.target) ?? "");
+	if (!xml.includes("dateCompatibility")) return bytes;
+	const props = parseRawTree(xml, {
+		part: book.target,
+		limits
+	}).root.children.find((c) => c.kind === "element" && c.local === "workbookPr");
+	if (props === void 0 || !props.attrs.has("dateCompatibility")) return bytes;
+	const open = props.open.replace(DATE_COMPATIBILITY, "");
+	const changed = xml.slice(0, props.start) + open + xml.slice(props.start + props.open.length);
+	const key = partKey(book.target);
+	const encoder = new TextEncoder();
+	return writeZip(zip.entries.map((entry) => {
+		if (partKey(zipNameToPartName(entry.name)) === key) return {
+			name: partNameToZipName(zipNameToPartName(entry.name)) ?? entry.name,
+			data: encoder.encode(changed)
+		};
+		const raw = zip.raw(entry);
+		return raw === null ? {
+			name: entry.name,
+			data: zip.read(entry)
+		} : {
+			name: entry.name,
+			data: /* @__PURE__ */ new Uint8Array(0),
+			raw
+		};
+	}));
+}
 // src/xlsx/render.ts
 /** The most characters a cell can hold (observed in xlvane 1.3.3, which refuses more: F-021). */
 const MAX_CELL_TEXT = 32767;
@@ -8134,7 +8170,7 @@ function applyWorkbook(bytes, plan, limits) {
 	};
 	checkSectionWork(plan, current.length, limits);
 	for (const planned of [...plan.sections].reverse()) current = applySection(current, planned, own, budget);
-	return compactSharedStrings(dropCachedResults(current, own), limits);
+	return dropDateCompatibility(compactSharedStrings(dropCachedResults(current, own), limits), limits);
 }
 /** Writes every formula that has a cached result again without it, so that applications compute it on open. */
 function dropCachedResults(bytes, own) {
