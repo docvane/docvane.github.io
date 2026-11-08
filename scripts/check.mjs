@@ -21,6 +21,8 @@ function files(dir) {
 const decode = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 /** Ownership files of webmaster tools (src/verification/): plain text, not pages. */
 const VERIFICATION = /^google[0-9a-f]+\.html$/;
+/** Pages that are not listed in the sitemap: the page for addresses that do not exist. */
+const UNLISTED = new Set(['404.html']);
 const pages = files(OUT).filter((f) => f.endsWith('.html') && !VERIFICATION.test(relative(OUT, f)));
 const ids = new Map(pages.map((p) => [p, new Set([...readFileSync(p, 'utf8').matchAll(/\sid="([^"]*)"/g)].map((m) => decode(m[1])))]));
 const problems = [];
@@ -29,6 +31,10 @@ for (const page of pages) {
   const html = readFileSync(page, 'utf8');
   const where = relative(OUT, page);
   if (!html.includes(`content="${CSP}"`)) problems.push(`${where}: no Content-Security-Policy`);
+  // The picture for shared links is an absolute address on this site, so it must be a file of the site.
+  const image = /<meta property="og:image" content="([^"]*)">/.exec(html)?.[1];
+  if (image === undefined) problems.push(`${where}: no og:image`);
+  else if (!decode(image).startsWith(SITE) || !existsSync(join(OUT, decode(image).slice(SITE.length)))) problems.push(`${where}: og:image ${image} is not a file of the site`);
   for (const m of html.matchAll(/<(script|link|img|iframe|source)\b[^>]*\s(?:src|href)="([^"]*)"/g)) {
     // A canonical link is not loaded; it must be the page's own address on the site.
     if (m[1] === 'link' && /\srel="canonical"/.test(m[0])) continue;
@@ -47,7 +53,7 @@ for (const page of pages) {
     const [rawPath, rawHash] = url.split('#');
     const path = decodeURIComponent(rawPath);
     const hash = rawHash === undefined ? undefined : decodeURIComponent(rawHash);
-    const target = path === '' ? page : join(dirname(page), path);
+    const target = path === '' ? page : path.startsWith('/') ? join(OUT, path) : join(dirname(page), path);
     if (!existsSync(target)) {
       problems.push(`${where}: ${url} does not exist`);
       continue;
@@ -63,7 +69,7 @@ if (!robots.includes(`Sitemap: ${SITE}sitemap.xml`)) problems.push('robots.txt: 
 const sitemap = existsSync(join(OUT, 'sitemap.xml')) ? readFileSync(join(OUT, 'sitemap.xml'), 'utf8') : '';
 const listed = [...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => decode(m[1])).sort();
 const sitePath = (p) => relative(OUT, p).split(sep).join('/');
-const expected = pages.filter((p) => !sitePath(p).startsWith('vendor') && !MOVED.has(sitePath(p))).map((p) => canonicalUrl(sitePath(p))).sort();
+const expected = pages.filter((p) => !sitePath(p).startsWith('vendor') && !MOVED.has(sitePath(p)) && !UNLISTED.has(sitePath(p))).map((p) => canonicalUrl(sitePath(p))).sort();
 for (const [from, to] of MOVED) {
   if (!existsSync(join(OUT, from))) problems.push(`${from}: the page that moved to ${to} is missing`);
   else if (!readFileSync(join(OUT, from), 'utf8').includes(`href="${relative(dirname(from), to).split(sep).join('/')}"`)) problems.push(`${from}: no link to ${to}`);

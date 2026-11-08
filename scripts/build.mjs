@@ -154,6 +154,7 @@ mkdirSync(OUT, { recursive: true });
 write('.nojekyll', '');
 cpSync(join(ROOT, 'src/style.css'), join(OUT, 'style.css'));
 cpSync(join(ROOT, 'src/favicon.svg'), join(OUT, 'favicon.svg'));
+cpSync(join(ROOT, 'src/social.png'), join(OUT, 'social.png'));
 
 // Documentation pages.
 const guideNav = PAGES.filter((p) => p.out.startsWith('guide/'));
@@ -239,6 +240,9 @@ write(
   'vendor/README.txt',
   `docvane ${version} (${core.integrity}): dist/*.js used by index.js, MIT license.\nxlvane ${xlvaneVersion} (${xlvanePkg.integrity}): dist/*.js used by index.js, MIT license.\nfflate ${fflateVersion} (${fflatePkg.integrity}): ${fflateEntry}, MIT license.\n${origin} by scripts/build.mjs.\n`,
 );
+
+// The page GitHub Pages shows for an address that does not exist. It can be served at any depth, so its links start at the root.
+write('404.html', page({ title: 'Page not found - docvane', path: '404.html', description: 'This page does not exist on the docvane website.', root: '/', version, source, body: '<article class="doc"><h1>Page not found</h1><p>There is no page at this address. Try the <a href="/index.html">home page</a>, the <a href="/guide/index.html">guide</a>, the <a href="/guide/syntax.html">template syntax</a> or the <a href="/demo/index.html">demo</a>.</p></article>' }));
 
 if (!existsSync(join(OUT, 'index.html'))) throw new Error('index.html was not written');
 

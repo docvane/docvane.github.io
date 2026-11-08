@@ -20,6 +20,9 @@ test('every page has its canonical link and Open Graph tags, escaped', () => {
   assert.match(html, /<meta property="og:title" content="A &quot;b&quot; &amp; c">/);
   assert.match(html, /<meta property="og:description" content="d &lt;e&gt;">/);
   assert.match(html, /<meta property="og:site_name" content="docvane">/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/docvane\.github\.io\/social\.png">/);
+  assert.match(html, /<meta property="og:image:width" content="1280">/);
+  assert.match(html, /<meta name="twitter:card" content="summary_large_image">/);
 });
 
 test('pages built before the release on npm say so', () => {

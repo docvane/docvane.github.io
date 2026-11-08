@@ -156,3 +156,5 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .problems li { margin: 0.6em 0; }
 .problems .where, .problems .fix { display: block; color: var(--fg-muted); font-size: 0.9rem; }
 .text-preview { max-height: 480px; overflow: auto; white-space: pre-wrap; }
+.delimiter { font: 1rem var(--mono); width: 4.5em; padding: 6px 8px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg); color: var(--fg); text-align: center; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
