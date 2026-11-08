@@ -1,4 +1,4 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // Checks the built site in docs/: every relative link and source points to a file that exists
 // (and to an id that exists for #anchors), no page loads a script, style, image or font from another
 // origin, every page carries the Content-Security-Policy and its canonical address, and robots.txt

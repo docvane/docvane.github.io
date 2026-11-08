@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://docvane.github.io/</loc></url>
-  <url><loc>https://docvane.github.io/guide/</loc></url>
-  <url><loc>https://docvane.github.io/guide/syntax.html</loc></url>
-  <url><loc>https://docvane.github.io/guide/errors.html</loc></url>
-  <url><loc>https://docvane.github.io/guide/migrating-from-docxtemplater.html</loc></url>
-  <url><loc>https://docvane.github.io/guide/cli-json.html</loc></url>
-  <url><loc>https://docvane.github.io/guide/mcp.html</loc></url>
-  <url><loc>https://docvane.github.io/guide/agent-skill.html</loc></url>
-  <url><loc>https://docvane.github.io/changelog.html</loc></url>
-  <url><loc>https://docvane.github.io/demo/</loc></url>
+  <url><loc>https://tplvane.github.io/</loc></url>
+  <url><loc>https://tplvane.github.io/guide/</loc></url>
+  <url><loc>https://tplvane.github.io/guide/syntax.html</loc></url>
+  <url><loc>https://tplvane.github.io/guide/errors.html</loc></url>
+  <url><loc>https://tplvane.github.io/guide/migrating-from-docxtemplater.html</loc></url>
+  <url><loc>https://tplvane.github.io/guide/cli-json.html</loc></url>
+  <url><loc>https://tplvane.github.io/guide/mcp.html</loc></url>
+  <url><loc>https://tplvane.github.io/guide/agent-skill.html</loc></url>
+  <url><loc>https://tplvane.github.io/changelog.html</loc></url>
+  <url><loc>https://tplvane.github.io/demo/</loc></url>
 </urlset>

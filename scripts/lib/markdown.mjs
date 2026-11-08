@@ -1,5 +1,5 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
-// A small Markdown to HTML converter for the documentation of docvane. It supports what those files
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
+// A small Markdown to HTML converter for the documentation of tplvane. It supports what those files
 // use: ATX headings with GitHub-style anchors, paragraphs, bullet and numbered lists (nested by
 // indentation), pipe tables, fenced code blocks, thematic breaks, inline code, **bold**, links and
 // backslash escapes. Everything is escaped: raw HTML in the source is shown as text, and links

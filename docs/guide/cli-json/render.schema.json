@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/DevXord/docvane/blob/main/packages/docvane/docs/cli-json/render.schema.json",
-  "title": "docvane render --json",
+  "$id": "https://github.com/DevXord/tplvane/blob/main/packages/tplvane/docs/cli-json/render.schema.json",
+  "title": "tplvane render --json",
   "oneOf": [
     {
       "type": "object",
       "properties": {
-        "docvane": {
+        "tplvane": {
           "const": 1
         },
         "command": {
@@ -67,7 +67,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "docvane",
+        "tplvane",
         "command",
         "ok",
         "result"

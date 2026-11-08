@@ -1,11 +1,11 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // Builds the site into docs/ (published by GitHub Pages from the main branch, /docs folder) from
-// the docvane packages and the offer example of the repository:
+// the tplvane packages and the offer example of the repository:
 //   node scripts/build.mjs --version 1.0.0                      # packages published on npm, example of tag v1.0.0
 //   node scripts/build.mjs --version 1.0.0 --tarballs DIR --commit SHA
-// The second form is for a version not yet on npm: DIR holds docvane-X.Y.Z.tgz and
-// docvane-mcp-X.Y.Z.tgz packed from commit SHA, and the pages say that they come before the release.
-// The documentation pages are the Markdown files of the docvane and @docvane/mcp packages, so the
+// The second form is for a version not yet on npm: DIR holds tplvane-X.Y.Z.tgz and
+// tplvane-mcp-X.Y.Z.tgz packed from commit SHA, and the pages say that they come before the release.
+// The documentation pages are the Markdown files of the tplvane and @tplvane/mcp packages, so the
 // site shows exactly the documentation of that version. The demo uses the package's own browser
 // code (dist/) with xlvane's and fflate's browser code, copied into docs/vendor/.
 import { createHash } from 'node:crypto';
@@ -42,10 +42,10 @@ const lock = existsSync(LOCK) ? JSON.parse(readFileSync(LOCK, 'utf8')) : {};
 /**
  * Every package version, file of the example and its sha512 must be in vendor.lock.json, so that a
  * new or changed file never reaches the site without a deliberate acceptance after checking it.
- * `--accept` covers only the docvane packages (check their npm provenance) and the files of the
+ * `--accept` covers only the tplvane packages (check their npm provenance) and the files of the
  * example; a dependency such as xlvane or fflate is accepted by name and version with
- * `--accept-dependency name@X.Y.Z`, so a new release within docvane's range is never taken in
- * along with a new docvane version. Packages packed before the release are locked by version and
+ * `--accept-dependency name@X.Y.Z`, so a new release within tplvane's range is never taken in
+ * along with a new tplvane version. Packages packed before the release are locked by version and
  * commit, apart from the published ones.
  */
 function locked(name, ver, integrity, own) {
@@ -64,22 +64,22 @@ const sha512 = (bytes) => `sha512-${createHash('sha512').update(bytes).digest('b
 
 /** Repository paths of the documents, the package file each comes from, and the page each becomes. */
 const PAGES = [
-  { repo: 'packages/docvane/README.md', pkg: 'docvane', file: 'README.md', out: 'guide/index.html', title: 'Guide', active: 'guide' },
-  { repo: 'docs/syntax.md', pkg: 'docvane', file: 'docs/syntax.md', out: 'guide/syntax.html', title: 'Template syntax', active: 'syntax' },
-  { repo: 'docs/errors.md', pkg: 'docvane', file: 'docs/errors.md', out: 'guide/errors.html', title: 'Errors and warnings', active: 'guide' },
-  { repo: 'docs/migrating-from-docxtemplater.md', pkg: 'docvane', file: 'docs/migrating-from-docxtemplater.md', out: 'guide/migrating-from-docxtemplater.html', title: 'Migrating from docxtemplater', active: 'guide' },
-  { repo: 'packages/docvane/docs/cli-json.md', pkg: 'docvane', file: 'docs/cli-json.md', out: 'guide/cli-json.html', title: 'Command line JSON', active: 'guide' },
-  { repo: 'packages/mcp/README.md', pkg: '@docvane/mcp', file: 'README.md', out: 'guide/mcp.html', title: '@docvane/mcp (MCP server)', active: 'guide' },
-  { repo: 'packages/docvane/skills/docvane/SKILL.md', pkg: 'docvane', file: 'skills/docvane/SKILL.md', out: 'guide/agent-skill.html', title: 'Agent Skill', active: 'guide' },
-  { repo: 'packages/docvane/CHANGELOG.md', pkg: 'docvane', file: 'CHANGELOG.md', out: 'changelog.html', title: 'Changelog', active: 'changelog' },
+  { repo: 'packages/tplvane/README.md', pkg: 'tplvane', file: 'README.md', out: 'guide/index.html', title: 'Guide', active: 'guide' },
+  { repo: 'docs/syntax.md', pkg: 'tplvane', file: 'docs/syntax.md', out: 'guide/syntax.html', title: 'Template syntax', active: 'syntax' },
+  { repo: 'docs/errors.md', pkg: 'tplvane', file: 'docs/errors.md', out: 'guide/errors.html', title: 'Errors and warnings', active: 'guide' },
+  { repo: 'docs/migrating-from-docxtemplater.md', pkg: 'tplvane', file: 'docs/migrating-from-docxtemplater.md', out: 'guide/migrating-from-docxtemplater.html', title: 'Migrating from docxtemplater', active: 'guide' },
+  { repo: 'packages/tplvane/docs/cli-json.md', pkg: 'tplvane', file: 'docs/cli-json.md', out: 'guide/cli-json.html', title: 'Command line JSON', active: 'guide' },
+  { repo: 'packages/mcp/README.md', pkg: '@tplvane/mcp', file: 'README.md', out: 'guide/mcp.html', title: '@tplvane/mcp (MCP server)', active: 'guide' },
+  { repo: 'packages/tplvane/skills/tplvane/SKILL.md', pkg: 'tplvane', file: 'skills/tplvane/SKILL.md', out: 'guide/agent-skill.html', title: 'Agent Skill', active: 'guide' },
+  { repo: 'packages/tplvane/CHANGELOG.md', pkg: 'tplvane', file: 'CHANGELOG.md', out: 'changelog.html', title: 'Changelog', active: 'changelog' },
 ];
 const PAGE_BY_REPO = new Map(PAGES.map((p) => [p.repo, p.out]));
 PAGE_BY_REPO.set('README.md', 'index.html');
 /** The JSON Schemas of the command line output: in the repository and in the package, and on the site. */
-const SCHEMA = /^packages\/docvane\/docs\/cli-json\/[\w.-]+\.schema\.json$/;
+const SCHEMA = /^packages\/tplvane\/docs\/cli-json\/[\w.-]+\.schema\.json$/;
 const schemaPage = (repoPath) => `guide/cli-json/${posix.basename(repoPath)}`;
 
-// The docvane packages: published on npm, or packed from a commit before the release.
+// The tplvane packages: published on npm, or packed from a commit before the release.
 async function own(name, file) {
   if (tarballs === undefined) {
     const pkg = await fetchPackage(name, version);
@@ -92,15 +92,15 @@ async function own(name, file) {
   if (manifest.name !== name || manifest.version !== version) throw new Error(`${file} holds ${String(manifest.name)}@${String(manifest.version)}, not ${name}@${version}.`);
   return pkg;
 }
-const core = await own('docvane', `docvane-${version}.tgz`);
-const mcp = await own('@docvane/mcp', `docvane-mcp-${version}.tgz`);
+const core = await own('tplvane', `tplvane-${version}.tgz`);
+const mcp = await own('@tplvane/mcp', `tplvane-mcp-${version}.tgz`);
 const manifestOf = (pkg) => JSON.parse(new TextDecoder().decode(pkg.files.get('package.json')));
 // The newest xlvane and fflate that the dependency ranges allow, as npm would install them.
 const xlvaneVersion = await newestInRange('xlvane', manifestOf(core).dependencies.xlvane);
 const xlvanePkg = await fetchPackage('xlvane', xlvaneVersion);
 locked('xlvane', xlvaneVersion, xlvanePkg.integrity, false);
 const fflateRange = manifestOf(xlvanePkg).dependencies.fflate;
-if (fflateRange !== manifestOf(core).dependencies.fflate) throw new Error(`docvane wants fflate ${String(manifestOf(core).dependencies.fflate)}, xlvane ${String(fflateRange)}: check which one the browser copy must satisfy.`);
+if (fflateRange !== manifestOf(core).dependencies.fflate) throw new Error(`tplvane wants fflate ${String(manifestOf(core).dependencies.fflate)}, xlvane ${String(fflateRange)}: check which one the browser copy must satisfy.`);
 const fflateVersion = await newestInRange('fflate', fflateRange);
 const fflatePkg = await fetchPackage('fflate', fflateVersion);
 locked('fflate', fflateVersion, fflatePkg.integrity, false);
@@ -108,7 +108,7 @@ locked('fflate', fflateVersion, fflatePkg.integrity, false);
 const EXAMPLE = ['offer.docx', 'data.json', 'logo.png'];
 const example = new Map();
 for (const name of EXAMPLE) {
-  const response = await fetch(`https://raw.githubusercontent.com/DevXord/docvane/${ref}/examples/offer/${name}`);
+  const response = await fetch(`https://raw.githubusercontent.com/DevXord/tplvane/${ref}/examples/offer/${name}`);
   if (!response.ok) throw new Error(`examples/offer/${name} of ${ref}: HTTP ${String(response.status)}`);
   const bytes = new Uint8Array(await response.arrayBuffer());
   locked(`examples/offer/${name}`, ref, sha512(bytes), true);
@@ -121,7 +121,7 @@ const text = (files, path) => {
   if (!data) throw new Error(`${path} is missing from the package.`);
   return new TextDecoder().decode(data);
 };
-const FILES = { docvane: core.files, '@docvane/mcp': mcp.files };
+const FILES = { tplvane: core.files, '@tplvane/mcp': mcp.files };
 const sourceOf = (p) => text(FILES[p.pkg], p.file);
 
 /** A link of a document, mapped to a page of the site (relative to `from`) or to GitHub at the ref. */
@@ -129,7 +129,7 @@ function linker(repoPath, from) {
   const rel = (target) => posix.relative(posix.dirname(from), target) || posix.basename(target);
   return (url) => {
     if (url.startsWith('#') || /^(https?:|mailto:)/i.test(url)) {
-      const gh = /^https:\/\/github\.com\/DevXord\/docvane\/blob\/main\/([^#?]+)(#.*)?$/.exec(url);
+      const gh = /^https:\/\/github\.com\/DevXord\/tplvane\/blob\/main\/([^#?]+)(#.*)?$/.exec(url);
       if (gh && PAGE_BY_REPO.has(gh[1])) return rel(PAGE_BY_REPO.get(gh[1])) + (gh[2] ?? '');
       if (gh && SCHEMA.test(gh[1])) return rel(schemaPage(gh[1]));
       return url;
@@ -168,9 +168,9 @@ for (const p of PAGES) {
   write(
     p.out,
     page({
-      title: `${p.title} - docvane`,
+      title: `${p.title} - tplvane`,
       path: p.out,
-      description: `${p.title} of docvane ${version}, a template engine for Word, PowerPoint and Excel files.`,
+      description: `${p.title} of tplvane ${version}, a template engine for Word, PowerPoint and Excel files.`,
       root,
       active: p.active,
       version,
@@ -202,10 +202,10 @@ const landing = fill(readFileSync(join(ROOT, 'src/index.html'), 'utf8'), {
   inspect: escapeHtml(inspectCode),
   cli: escapeHtml(codeBlocks(cliSection, 'bash').join('\n')),
 });
-write('index.html', page({ title: 'docvane - fill Word, PowerPoint and Excel templates', path: 'index.html', description: 'docvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.', root: '', version, source, body: landing }));
+write('index.html', page({ title: 'tplvane - fill Word, PowerPoint and Excel templates', path: 'index.html', description: 'tplvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.', root: '', version, source, body: landing }));
 
-// Demo: the page, its script, the sample, and the browser code of docvane, xlvane and fflate.
-write('demo/index.html', page({ title: 'Demo - docvane', path: 'demo/index.html', description: 'Fill a Word, PowerPoint or Excel template in the browser with docvane; the files do not leave the computer.', root: '../', active: 'demo', version, source, wide: true, scripts: ['demo.js'], body: readFileSync(join(ROOT, 'src/demo/index.html'), 'utf8') }));
+// Demo: the page, its script, the sample, and the browser code of tplvane, xlvane and fflate.
+write('demo/index.html', page({ title: 'Demo - tplvane', path: 'demo/index.html', description: 'Fill a Word, PowerPoint or Excel template in the browser with tplvane; the files do not leave the computer.', root: '../', active: 'demo', version, source, wide: true, scripts: ['demo.js'], body: readFileSync(join(ROOT, 'src/demo/index.html'), 'utf8') }));
 cpSync(join(ROOT, 'src/demo/demo.js'), join(OUT, 'demo/demo.js'));
 for (const [name, bytes] of example) write(`demo/sample/${name}`, bytes);
 /** Copies an entry point and the files it imports, with the bare specifiers rewritten to the copies beside it (no import map, so the CSP needs no inline script). */
@@ -227,7 +227,7 @@ function vendor(pkg, name, rewrite) {
   }
   write(`vendor/${name}/LICENSE`, pkg.files.get('LICENSE'));
 }
-vendor(core, 'docvane', [
+vendor(core, 'tplvane', [
   ['xlvane', '../xlvane/index.js'],
   ['fflate', '../fflate/browser.js'],
 ]);
@@ -235,14 +235,14 @@ vendor(xlvanePkg, 'xlvane', [['fflate', '../fflate/browser.js']]);
 const fflateEntry = JSON.parse(text(fflatePkg.files, 'package.json')).exports['.'].import.default;
 write('vendor/fflate/browser.js', fflatePkg.files.get(fflateEntry.replace(/^\.\//, '')));
 write('vendor/fflate/LICENSE', fflatePkg.files.get('LICENSE'));
-const origin = commit === undefined ? 'Copied from the packages published on npm' : `docvane packed from commit ${commit} before its release; xlvane and fflate from npm. Copied`;
+const origin = commit === undefined ? 'Copied from the packages published on npm' : `tplvane packed from commit ${commit} before its release; xlvane and fflate from npm. Copied`;
 write(
   'vendor/README.txt',
-  `docvane ${version} (${core.integrity}): dist/*.js used by index.js, MIT license.\nxlvane ${xlvaneVersion} (${xlvanePkg.integrity}): dist/*.js used by index.js, MIT license.\nfflate ${fflateVersion} (${fflatePkg.integrity}): ${fflateEntry}, MIT license.\n${origin} by scripts/build.mjs.\n`,
+  `tplvane ${version} (${core.integrity}): dist/*.js used by index.js, MIT license.\nxlvane ${xlvaneVersion} (${xlvanePkg.integrity}): dist/*.js used by index.js, MIT license.\nfflate ${fflateVersion} (${fflatePkg.integrity}): ${fflateEntry}, MIT license.\n${origin} by scripts/build.mjs.\n`,
 );
 
 // The page GitHub Pages shows for an address that does not exist. It can be served at any depth, so its links start at the root.
-write('404.html', page({ title: 'Page not found - docvane', path: '404.html', description: 'This page does not exist on the docvane website.', root: '/', version, source, body: '<article class="doc"><h1>Page not found</h1><p>There is no page at this address. Try the <a href="/index.html">home page</a>, the <a href="/guide/index.html">guide</a>, the <a href="/guide/syntax.html">template syntax</a> or the <a href="/demo/index.html">demo</a>.</p></article>' }));
+write('404.html', page({ title: 'Page not found - tplvane', path: '404.html', description: 'This page does not exist on the tplvane website.', root: '/', version, source, body: '<article class="doc"><h1>Page not found</h1><p>There is no page at this address. Try the <a href="/index.html">home page</a>, the <a href="/guide/index.html">guide</a>, the <a href="/guide/syntax.html">template syntax</a> or the <a href="/demo/index.html">demo</a>.</p></article>' }));
 
 if (!existsSync(join(OUT, 'index.html'))) throw new Error('index.html was not written');
 
@@ -252,7 +252,7 @@ const sitePages = ['index.html', ...PAGES.map((p) => p.out), 'demo/index.html'];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitePages.map((p) => `  <url><loc>${escapeHtml(canonicalUrl(p))}</loc></url>\n`).join('')}</urlset>\n`);
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${canonicalUrl('sitemap.xml')}\n`);
 if (MOVED.size > 0) throw new Error('pages that moved are not handled by this build yet.');
-console.log(`docs/: docvane ${version}${commit === undefined ? '' : ` (packed from ${commit.slice(0, 7)})`}, @docvane/mcp ${version}, xlvane ${xlvaneVersion}, fflate ${fflateVersion}; ${String(sitePages.length)} pages.`);
+console.log(`docs/: tplvane ${version}${commit === undefined ? '' : ` (packed from ${commit.slice(0, 7)})`}, @tplvane/mcp ${version}, xlvane ${xlvaneVersion}, fflate ${fflateVersion}; ${String(sitePages.length)} pages.`);
 
 /** The newest published version that a caret range (^X.Y.Z) allows; other ranges are refused. */
 async function newestInRange(name, range) {

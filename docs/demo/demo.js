@@ -1,7 +1,7 @@
-// Demo: fill a Word, PowerPoint or Excel template in the browser with docvane. Text from the template
+// Demo: fill a Word, PowerPoint or Excel template in the browser with tplvane. Text from the template
 // and from the data is only ever inserted with textContent, never as HTML, and it is cut to a few
 // hundred characters, so a template with huge strings cannot freeze the page while it is laid out.
-import { inspect, isDvError, preview, render, validate } from '../vendor/docvane/index.js';
+import { inspect, isTvError, preview, render, validate } from '../vendor/tplvane/index.js';
 
 const $ = (id) => document.getElementById(id);
 /** Longest text shown in one table cell or message. */
@@ -95,20 +95,20 @@ function problem(error) {
   const where = [dataPath === undefined || dataPath === '' ? '' : `${String(dataPath)} in the data`, place ?? ''].filter((s) => s !== '').join('; ');
   if (where !== '') item.append(el('span', `Where: ${where}`, 'where'));
   // Hints about options (such as raising a limit) are for programs; the demo uses the defaults.
-  if (error?.hint && error.code !== 'DV_E_LIMIT_EXCEEDED') item.append(el('span', `Fix: ${String(error.hint)}`, 'fix'));
+  if (error?.hint && error.code !== 'TV_E_LIMIT_EXCEEDED') item.append(el('span', `Fix: ${String(error.hint)}`, 'fix'));
   return item;
 }
 
 function showError(error, keepResult = false) {
   const box = $('error');
   box.replaceChildren();
-  const code = isDvError(error) ? error.code : 'Error';
+  const code = isTvError(error) ? error.code : 'Error';
   box.append(el('p', `${code}: ${error instanceof Error ? error.message : String(error)}`));
-  if (isDvError(error) && error.errors.length > 0) {
+  if (isTvError(error) && error.errors.length > 0) {
     const list = el('ol', undefined, 'problems');
     for (const e of error.errors.slice(0, MAX_ROWS)) list.append(problem(e));
     box.append(list);
-  } else if (isDvError(error) && error.hint && error.code !== 'DV_E_LIMIT_EXCEEDED') box.append(el('p', `Hint: ${error.hint}`));
+  } else if (isTvError(error) && error.hint && error.code !== 'TV_E_LIMIT_EXCEEDED') box.append(el('p', `Hint: ${error.hint}`));
   box.hidden = false;
   if (!keepResult) $('result').hidden = true;
 }
@@ -168,7 +168,7 @@ async function open(bytes, name, data) {
     setStatus(`${name}: could not be read.`);
     showError(error);
     // Placeholders such as {{name}} are not tags with the delimiters { and }; say which delimiters would read them.
-    const hint = isDvError(error) && error.code === 'DV_E_TEMPLATE_INVALID' ? notationHint(bytes) : null;
+    const hint = isTvError(error) && error.code === 'TV_E_TEMPLATE_INVALID' ? notationHint(bytes) : null;
     if (hint !== null) {
       const box = $('notags');
       box.replaceChildren(el('p', hint));
@@ -260,7 +260,7 @@ function fill() {
     $('output').hidden = false;
     setStatus(`${name}: ${(result.byteLength / 1024).toFixed(1)} KiB, made in ${String(Math.round(performance.now() - started))} ms and downloaded.`);
   } catch (error) {
-    if (isDvError(error) && error.errors.length > 0) showProblems(`${error.code}: ${error.message}`, error.errors);
+    if (isTvError(error) && error.errors.length > 0) showProblems(`${error.code}: ${error.message}`, error.errors);
     else showError(error, true);
   }
 }

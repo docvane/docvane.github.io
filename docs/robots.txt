@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://docvane.github.io/sitemap.xml
+Sitemap: https://tplvane.github.io/sitemap.xml

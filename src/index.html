@@ -1,7 +1,7 @@
 <section class="hero">
   <h1>Fill Word, PowerPoint and Excel templates</h1>
-  <p class="lead">docvane is an MIT-licensed template engine with one syntax for DOCX, PPTX and XLSX that treats every template and every piece of data as untrusted. ESM only, with two runtime dependencies (<a href="https://xlvane.github.io/">xlvane</a> and <a href="https://github.com/101arrowz/fflate">fflate</a>). It works with <code>Uint8Array</code> and has no Node.js dependencies; the command line needs Node.js.</p>
-  <div class="install"><code>npm install docvane</code></div>
+  <p class="lead">tplvane is an MIT-licensed template engine with one syntax for DOCX, PPTX and XLSX that treats every template and every piece of data as untrusted. ESM only, with two runtime dependencies (<a href="https://xlvane.github.io/">xlvane</a> and <a href="https://github.com/101arrowz/fflate">fflate</a>). It works with <code>Uint8Array</code> and has no Node.js dependencies; the command line needs Node.js.</p>
+  <div class="install"><code>npm install tplvane</code></div>
   <p class="actions"><a class="button primary" href="guide/index.html">Read the guide</a><a class="button" href="demo/index.html">Fill a template in the browser</a><a class="button" href="guide/syntax.html">Template syntax</a></p>
 </section>
 
@@ -19,9 +19,9 @@
     <a class="card" href="guide/syntax.html#rendering"><h3>What repeats</h3><p>Follows from where the tags are: part of a paragraph, whole paragraphs, table rows, slides, or rows of a sheet. Tags are found however Word, PowerPoint, Excel or LibreOffice split their text.</p></a>
     <a class="card" href="guide/syntax.html#excel"><h3>Excel</h3><p>Cells that hold one value keep its type; the formulas of repeated rows move with them, and totals, tables and filters below the copies grow to cover them.</p></a>
     <a class="card" href="guide/syntax.html#expressions"><h3>Safe expressions</h3><p>Comparisons, <code>&amp;&amp;</code>, <code>||</code>, <code>!</code> and allow-listed formatters such as <code>currency</code>, <code>date</code> and <code>default</code>. No <code>eval</code>, no access to prototypes, limits on iterations and output size.</p></a>
-    <a class="card" href="guide/errors.html"><h3>Errors you can act on</h3><p>Every error has a stable <code>DV_E_*</code> code, a place in the template and a hint; problems of a template or of data are reported all at once.</p></a>
-    <a class="card" href="guide/index.html#the-command-line-in-5-minutes"><h3>Command line</h3><p><code>docvane inspect</code>, <code>render</code>, <code>validate</code> and <code>preview</code>, with <code>--json</code> output that follows <a href="guide/cli-json.html">documented schemas</a>.</p></a>
-    <a class="card" href="guide/mcp.html"><h3>MCP server</h3><p><code>@docvane/mcp</code>: tools for MCP clients to inspect templates, validate data, preview results, and with <code>--allow-write</code> to render, only inside the directories given at start.</p></a>
+    <a class="card" href="guide/errors.html"><h3>Errors you can act on</h3><p>Every error has a stable <code>TV_E_*</code> code, a place in the template and a hint; problems of a template or of data are reported all at once.</p></a>
+    <a class="card" href="guide/index.html#the-command-line-in-5-minutes"><h3>Command line</h3><p><code>tplvane inspect</code>, <code>render</code>, <code>validate</code> and <code>preview</code>, with <code>--json</code> output that follows <a href="guide/cli-json.html">documented schemas</a>.</p></a>
+    <a class="card" href="guide/mcp.html"><h3>MCP server</h3><p><code>@tplvane/mcp</code>: tools for MCP clients to inspect templates, validate data, preview results, and with <code>--allow-write</code> to render, only inside the directories given at start.</p></a>
     <a class="card" href="guide/migrating-from-docxtemplater.html"><h3>From docxtemplater</h3><p>The basic tags of docxtemplater are read as they are; the guide lists what works without changes, what needs a change and what is not available.</p></a>
   </div>
 </section>
@@ -34,7 +34,7 @@
 <section>
   <h2>Command line</h2>
   <pre><code class="language-sh">{{cli}}</code></pre>
-  <p>The commands work on the offer template of the repository, <a href="https://github.com/DevXord/docvane/tree/main/examples/offer">examples/offer</a>. <a href="guide/index.html#the-command-line-in-5-minutes">The command line in 5 minutes</a> explains each step.</p>
+  <p>The commands work on the offer template of the repository, <a href="https://github.com/DevXord/tplvane/tree/main/examples/offer">examples/offer</a>. <a href="guide/index.html#the-command-line-in-5-minutes">The command line in 5 minutes</a> explains each step.</p>
 </section>
 
 <section>

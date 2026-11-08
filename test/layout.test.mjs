@@ -1,26 +1,26 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // node --test: the page frame (canonical address, Open Graph tags, where the pages come from).
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { canonicalUrl, page } from '../scripts/lib/layout.mjs';
 
 test('canonical addresses leave out index.html', () => {
-  assert.equal(canonicalUrl('index.html'), 'https://docvane.github.io/');
-  assert.equal(canonicalUrl('guide/index.html'), 'https://docvane.github.io/guide/');
-  assert.equal(canonicalUrl('guide/mcp.html'), 'https://docvane.github.io/guide/mcp.html');
-  assert.equal(canonicalUrl('sitemap.xml'), 'https://docvane.github.io/sitemap.xml');
+  assert.equal(canonicalUrl('index.html'), 'https://tplvane.github.io/');
+  assert.equal(canonicalUrl('guide/index.html'), 'https://tplvane.github.io/guide/');
+  assert.equal(canonicalUrl('guide/mcp.html'), 'https://tplvane.github.io/guide/mcp.html');
+  assert.equal(canonicalUrl('sitemap.xml'), 'https://tplvane.github.io/sitemap.xml');
   assert.throws(() => canonicalUrl('../x.html'));
   assert.throws(() => canonicalUrl('/x.html'));
 });
 
 test('every page has its canonical link and Open Graph tags, escaped', () => {
   const html = page({ title: 'A "b" & c', description: 'd <e>', path: 'guide/mcp.html', root: '../', version: '1.0.0', body: '' });
-  assert.match(html, /<link rel="canonical" href="https:\/\/docvane\.github\.io\/guide\/mcp\.html">/);
-  assert.match(html, /<meta property="og:url" content="https:\/\/docvane\.github\.io\/guide\/mcp\.html">/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/tplvane\.github\.io\/guide\/mcp\.html">/);
+  assert.match(html, /<meta property="og:url" content="https:\/\/tplvane\.github\.io\/guide\/mcp\.html">/);
   assert.match(html, /<meta property="og:title" content="A &quot;b&quot; &amp; c">/);
   assert.match(html, /<meta property="og:description" content="d &lt;e&gt;">/);
-  assert.match(html, /<meta property="og:site_name" content="docvane">/);
-  assert.match(html, /<meta property="og:image" content="https:\/\/docvane\.github\.io\/social\.png">/);
+  assert.match(html, /<meta property="og:site_name" content="tplvane">/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/tplvane\.github\.io\/social\.png">/);
   assert.match(html, /<meta property="og:image:width" content="1280">/);
   assert.match(html, /<meta name="twitter:card" content="summary_large_image">/);
 });

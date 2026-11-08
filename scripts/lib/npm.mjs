@@ -1,4 +1,4 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // Downloads a published npm package (or reads a packed tarball) and returns its files, checked against the integrity the
 // registry lists. Tarballs are gzip-compressed POSIX tar archives (USTAR); only regular files are
 // returned, with the leading "package/" removed.
