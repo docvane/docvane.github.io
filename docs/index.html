@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>docvane - fill Word, PowerPoint and Excel templates</title>
-<meta name="description" content="docvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.">
-<link rel="canonical" href="https://docvane.github.io/">
+<title>tplvane - fill Word, PowerPoint and Excel templates</title>
+<meta name="description" content="tplvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.">
+<link rel="canonical" href="https://tplvane.github.io/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="docvane">
-<meta property="og:title" content="docvane - fill Word, PowerPoint and Excel templates">
-<meta property="og:description" content="docvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.">
-<meta property="og:url" content="https://docvane.github.io/">
-<meta property="og:image" content="https://docvane.github.io/social.png">
+<meta property="og:site_name" content="tplvane">
+<meta property="og:title" content="tplvane - fill Word, PowerPoint and Excel templates">
+<meta property="og:description" content="tplvane fills Word, PowerPoint and Excel templates with one syntax and treats templates and data as untrusted. MIT license, two runtime dependencies.">
+<meta property="og:url" content="https://tplvane.github.io/">
+<meta property="og:image" content="https://tplvane.github.io/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="docvane: fill Word, PowerPoint and Excel templates with one syntax">
+<meta property="og:image:alt" content="tplvane: fill Word, PowerPoint and Excel templates with one syntax">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -25,9 +25,9 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="bar">
-    <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span>docvane</a>
+    <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span>tplvane</a>
     <span class="version" title="Version, not yet on npm">1.0.0</span>
-    <nav class="main-nav" aria-label="Main"><a href="guide/index.html">Guide</a><a href="guide/syntax.html">Syntax</a><a href="demo/index.html">Demo</a><a href="changelog.html">Changelog</a><a href="https://github.com/DevXord/docvane">GitHub</a><a href="https://www.npmjs.com/package/docvane">npm</a></nav>
+    <nav class="main-nav" aria-label="Main"><a href="guide/index.html">Guide</a><a href="guide/syntax.html">Syntax</a><a href="demo/index.html">Demo</a><a href="changelog.html">Changelog</a><a href="https://github.com/DevXord/tplvane">GitHub</a><a href="https://www.npmjs.com/package/tplvane">npm</a></nav>
   </div>
 </header>
 <div class="layout">
@@ -35,15 +35,15 @@
 <main id="main">
 <section class="hero">
   <h1>Fill Word, PowerPoint and Excel templates</h1>
-  <p class="lead">docvane is an MIT-licensed template engine with one syntax for DOCX, PPTX and XLSX that treats every template and every piece of data as untrusted. ESM only, with two runtime dependencies (<a href="https://xlvane.github.io/">xlvane</a> and <a href="https://github.com/101arrowz/fflate">fflate</a>). It works with <code>Uint8Array</code> and has no Node.js dependencies; the command line needs Node.js.</p>
-  <div class="install"><code>npm install docvane</code></div>
+  <p class="lead">tplvane is an MIT-licensed template engine with one syntax for DOCX, PPTX and XLSX that treats every template and every piece of data as untrusted. ESM only, with two runtime dependencies (<a href="https://xlvane.github.io/">xlvane</a> and <a href="https://github.com/101arrowz/fflate">fflate</a>). It works with <code>Uint8Array</code> and has no Node.js dependencies; the command line needs Node.js.</p>
+  <div class="install"><code>npm install tplvane</code></div>
   <p class="actions"><a class="button primary" href="guide/index.html">Read the guide</a><a class="button" href="demo/index.html">Fill a template in the browser</a><a class="button" href="guide/syntax.html">Template syntax</a></p>
 </section>
 
 <section>
   <h2>Quick start</h2>
   <pre><code class="language-ts">import { readFileSync, writeFileSync } from &#39;node:fs&#39;;
-import { render } from &#39;docvane&#39;;
+import { render } from &#39;tplvane&#39;;
 
 // offer.docx and logo.png are in examples/offer of the repository.
 const result = render(readFileSync(&#39;offer.docx&#39;), {
@@ -69,9 +69,9 @@ writeFileSync(&#39;offer-anna.docx&#39;, result);</code></pre>
     <a class="card" href="guide/syntax.html#rendering"><h3>What repeats</h3><p>Follows from where the tags are: part of a paragraph, whole paragraphs, table rows, slides, or rows of a sheet. Tags are found however Word, PowerPoint, Excel or LibreOffice split their text.</p></a>
     <a class="card" href="guide/syntax.html#excel"><h3>Excel</h3><p>Cells that hold one value keep its type; the formulas of repeated rows move with them, and totals, tables and filters below the copies grow to cover them.</p></a>
     <a class="card" href="guide/syntax.html#expressions"><h3>Safe expressions</h3><p>Comparisons, <code>&amp;&amp;</code>, <code>||</code>, <code>!</code> and allow-listed formatters such as <code>currency</code>, <code>date</code> and <code>default</code>. No <code>eval</code>, no access to prototypes, limits on iterations and output size.</p></a>
-    <a class="card" href="guide/errors.html"><h3>Errors you can act on</h3><p>Every error has a stable <code>DV_E_*</code> code, a place in the template and a hint; problems of a template or of data are reported all at once.</p></a>
-    <a class="card" href="guide/index.html#the-command-line-in-5-minutes"><h3>Command line</h3><p><code>docvane inspect</code>, <code>render</code>, <code>validate</code> and <code>preview</code>, with <code>--json</code> output that follows <a href="guide/cli-json.html">documented schemas</a>.</p></a>
-    <a class="card" href="guide/mcp.html"><h3>MCP server</h3><p><code>@docvane/mcp</code>: tools for MCP clients to inspect templates, validate data, preview results, and with <code>--allow-write</code> to render, only inside the directories given at start.</p></a>
+    <a class="card" href="guide/errors.html"><h3>Errors you can act on</h3><p>Every error has a stable <code>TV_E_*</code> code, a place in the template and a hint; problems of a template or of data are reported all at once.</p></a>
+    <a class="card" href="guide/index.html#the-command-line-in-5-minutes"><h3>Command line</h3><p><code>tplvane inspect</code>, <code>render</code>, <code>validate</code> and <code>preview</code>, with <code>--json</code> output that follows <a href="guide/cli-json.html">documented schemas</a>.</p></a>
+    <a class="card" href="guide/mcp.html"><h3>MCP server</h3><p><code>@tplvane/mcp</code>: tools for MCP clients to inspect templates, validate data, preview results, and with <code>--allow-write</code> to render, only inside the directories given at start.</p></a>
     <a class="card" href="guide/migrating-from-docxtemplater.html"><h3>From docxtemplater</h3><p>The basic tags of docxtemplater are read as they are; the guide lists what works without changes, what needs a change and what is not available.</p></a>
   </div>
 </section>
@@ -79,7 +79,7 @@ writeFileSync(&#39;offer-anna.docx&#39;, result);</code></pre>
 <section>
   <h2>Inspect a template</h2>
   <pre><code class="language-ts">import { readFileSync } from &#39;node:fs&#39;;
-import { inspect } from &#39;docvane&#39;;
+import { inspect } from &#39;tplvane&#39;;
 
 const { tags, sections, schema } = inspect(readFileSync(&#39;offer.docx&#39;));
 for (const tag of tags) console.log(tag.raw, &#39;-&#39;, tag.location.description);
@@ -93,11 +93,11 @@ console.log(JSON.stringify(schema, null, 2));</code></pre>
 
 <section>
   <h2>Command line</h2>
-  <pre><code class="language-sh">npx docvane inspect offer.docx
-npx docvane validate offer.docx data.json
-npx docvane render offer.docx data.json
-npx docvane preview offer-filled.docx</code></pre>
-  <p>The commands work on the offer template of the repository, <a href="https://github.com/DevXord/docvane/tree/main/examples/offer">examples/offer</a>. <a href="guide/index.html#the-command-line-in-5-minutes">The command line in 5 minutes</a> explains each step.</p>
+  <pre><code class="language-sh">npx tplvane inspect offer.docx
+npx tplvane validate offer.docx data.json
+npx tplvane render offer.docx data.json
+npx tplvane preview offer-filled.docx</code></pre>
+  <p>The commands work on the offer template of the repository, <a href="https://github.com/DevXord/tplvane/tree/main/examples/offer">examples/offer</a>. <a href="guide/index.html#the-command-line-in-5-minutes">The command line in 5 minutes</a> explains each step.</p>
 </section>
 
 <section>
@@ -109,7 +109,7 @@ npx docvane preview offer-filled.docx</code></pre>
 </main>
 </div>
 <footer class="site-footer">
-  <p>docvane 1.0.0, MIT License. Pages built from the packages of commit b0d17da, before their release on npm. <a href="https://github.com/DevXord/docvane">Source on GitHub</a> · <a href="https://github.com/DevXord/docvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+  <p>tplvane 1.0.0, MIT License. Pages built from the packages of commit b510022, before their release on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
 </footer>
 </body>
 </html>

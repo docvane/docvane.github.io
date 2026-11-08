@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Agent Skill - docvane</title>
-<meta name="description" content="Agent Skill of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
-<link rel="canonical" href="https://docvane.github.io/guide/agent-skill.html">
+<title>Agent Skill - tplvane</title>
+<meta name="description" content="Agent Skill of tplvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<link rel="canonical" href="https://tplvane.github.io/guide/agent-skill.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="docvane">
-<meta property="og:title" content="Agent Skill - docvane">
-<meta property="og:description" content="Agent Skill of docvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
-<meta property="og:url" content="https://docvane.github.io/guide/agent-skill.html">
-<meta property="og:image" content="https://docvane.github.io/social.png">
+<meta property="og:site_name" content="tplvane">
+<meta property="og:title" content="Agent Skill - tplvane">
+<meta property="og:description" content="Agent Skill of tplvane 1.0.0, a template engine for Word, PowerPoint and Excel files.">
+<meta property="og:url" content="https://tplvane.github.io/guide/agent-skill.html">
+<meta property="og:image" content="https://tplvane.github.io/social.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="docvane: fill Word, PowerPoint and Excel templates with one syntax">
+<meta property="og:image:alt" content="tplvane: fill Word, PowerPoint and Excel templates with one syntax">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
@@ -25,29 +25,29 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="bar">
-    <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>docvane</a>
+    <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>tplvane</a>
     <span class="version" title="Version, not yet on npm">1.0.0</span>
-    <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/docvane">GitHub</a><a href="https://www.npmjs.com/package/docvane">npm</a></nav>
+    <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/tplvane">GitHub</a><a href="https://www.npmjs.com/package/tplvane">npm</a></nav>
   </div>
 </header>
 <div class="layout with-toc">
 <nav class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li class="toc-2"><a href="#recommended-order-of-work">Recommended order of work</a></li><li class="toc-2"><a href="#command-line">Command line</a></li><li class="toc-2"><a href="#library">Library</a></li><li class="toc-2"><a href="#template-syntax">Template syntax</a></li><li class="toc-2"><a href="#errors">Errors</a></li></ul></nav>
 <main id="main">
-<nav class="guide-nav" aria-label="Guide"><a href="index.html">Guide</a><a href="syntax.html">Template syntax</a><a href="errors.html">Errors and warnings</a><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a><a href="cli-json.html">Command line JSON</a><a href="mcp.html">@docvane/mcp (MCP server)</a><a href="agent-skill.html" aria-current="page">Agent Skill</a></nav><article class="doc"><h1 id="docvane-filling-templates"><a class="anchor" href="#docvane-filling-templates" aria-hidden="true">#</a>docvane: filling templates</h1>
-<p>docvane fills templates made in Word, PowerPoint, Excel or LibreOffice with data. One tag syntax for all three formats. Templates and data are treated as untrusted: tags cannot run code, values are escaped, the size of the result is limited, and nothing is downloaded unless you pass a function (library) or <code>--fetch-images</code> (command line).</p>
-<div class="table"><table><thead><tr><th>Way</th><th>When</th><th>Start</th></tr></thead><tbody><tr><td>Library <code>docvane</code></td><td>You write JavaScript or TypeScript</td><td><code>npm install docvane</code></td></tr><tr><td>Command line <code>docvane</code></td><td>You run shell commands</td><td><code>npx docvane help</code></td></tr></tbody></table></div>
+<nav class="guide-nav" aria-label="Guide"><a href="index.html">Guide</a><a href="syntax.html">Template syntax</a><a href="errors.html">Errors and warnings</a><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a><a href="cli-json.html">Command line JSON</a><a href="mcp.html">@tplvane/mcp (MCP server)</a><a href="agent-skill.html" aria-current="page">Agent Skill</a></nav><article class="doc"><h1 id="tplvane-filling-templates"><a class="anchor" href="#tplvane-filling-templates" aria-hidden="true">#</a>tplvane: filling templates</h1>
+<p>tplvane fills templates made in Word, PowerPoint, Excel or LibreOffice with data. One tag syntax for all three formats. Templates and data are treated as untrusted: tags cannot run code, values are escaped, the size of the result is limited, and nothing is downloaded unless you pass a function (library) or <code>--fetch-images</code> (command line).</p>
+<div class="table"><table><thead><tr><th>Way</th><th>When</th><th>Start</th></tr></thead><tbody><tr><td>Library <code>tplvane</code></td><td>You write JavaScript or TypeScript</td><td><code>npm install tplvane</code></td></tr><tr><td>Command line <code>tplvane</code></td><td>You run shell commands</td><td><code>npx tplvane help</code></td></tr></tbody></table></div>
 <h2 id="recommended-order-of-work"><a class="anchor" href="#recommended-order-of-work" aria-hidden="true">#</a>Recommended order of work</h2>
 <ol><li><strong>Inspect the template</strong> before preparing data: <code>inspect</code> returns the JSON Schema of the data, every tag with its place (<code>body, table 1 row 2 cell 1, paragraph 1</code>, <code>slide 3, shape &quot;Title 1&quot;</code>, <code>sheet Data, cell C5</code>) and the loops and conditions.</li><li><strong>Build the data</strong> to fit the schema.</li><li><strong>Validate</strong> the data: every problem comes with the path of the field (<code>items[1].name</code>), the place in the template and a hint that lists the fields that are there.</li><li><strong>Render</strong>, then <strong>read the result as text</strong> with <code>preview</code> to check it.</li></ol>
 <h2 id="command-line"><a class="anchor" href="#command-line" aria-hidden="true">#</a>Command line</h2>
-<pre><code class="language-bash">npx docvane inspect offer.docx              # data fields, sections, tags
-npx docvane inspect offer.docx --schema     # the JSON Schema of the data
-npx docvane validate offer.docx data.json   # exit code 1 when the data has problems
-npx docvane render offer.docx data.json -o offer-anna.docx
-npx docvane preview offer-anna.docx         # the text of the result</code></pre>
-<p>Add <code>--json</code> to any command for one JSON document (described in <code>node_modules/docvane/docs/cli-json.md</code>). <code>render</code> never replaces a file without <code>--force</code>; <code>--dry-run</code> checks without writing. Image values in the data can be files next to the data file (<code>&quot;logo&quot;: &quot;logo.png&quot;</code>) or data URLs.</p>
+<pre><code class="language-bash">npx tplvane inspect offer.docx              # data fields, sections, tags
+npx tplvane inspect offer.docx --schema     # the JSON Schema of the data
+npx tplvane validate offer.docx data.json   # exit code 1 when the data has problems
+npx tplvane render offer.docx data.json -o offer-anna.docx
+npx tplvane preview offer-anna.docx         # the text of the result</code></pre>
+<p>Add <code>--json</code> to any command for one JSON document (described in <code>node_modules/tplvane/docs/cli-json.md</code>). <code>render</code> never replaces a file without <code>--force</code>; <code>--dry-run</code> checks without writing. Image values in the data can be files next to the data file (<code>&quot;logo&quot;: &quot;logo.png&quot;</code>) or data URLs.</p>
 <h2 id="library"><a class="anchor" href="#library" aria-hidden="true">#</a>Library</h2>
 <pre><code class="language-ts">import { readFileSync, writeFileSync } from &#39;node:fs&#39;;
-import { inspect, preview, render, validate } from &#39;docvane&#39;;
+import { inspect, preview, render, validate } from &#39;tplvane&#39;;
 
 const template = readFileSync(&#39;offer.docx&#39;);
 const { schema } = inspect(template);
@@ -63,11 +63,11 @@ console.log(preview(result).text);</code></pre>
 <div class="table"><table><thead><tr><th>Tag</th><th>Meaning</th></tr></thead><tbody><tr><td><code>{customer.name}</code></td><td>A value</td></tr><tr><td><code>{total | currency(&quot;PLN&quot;)}</code></td><td>A value through formatters: <code>upper</code>, <code>lower</code>, <code>capitalize</code>, <code>trim</code>, <code>default(&quot;-&quot;)</code>, <code>number(2)</code>, <code>percent</code>, <code>currency(&quot;EUR&quot;)</code>, <code>date(&quot;long&quot;)</code>, <code>link</code></td></tr><tr><td><code>{#items}…{/items}</code></td><td>Repeats for each item of a list; shows once for a true value</td></tr><tr><td><code>{^items}…{/items}</code></td><td>Shows when the value is missing, false or an empty list</td></tr><tr><td><code>{#total &gt; 1000}…{/total &gt; 1000}</code></td><td>A condition: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>!</code></td></tr><tr><td><code>{.}</code></td><td>The current item of a list of plain values</td></tr><tr><td><code>{%logo}</code></td><td>An image (bytes or a data URL; Word and PowerPoint)</td></tr><tr><td><code>{~summary}</code></td><td>Markdown with the template&#39;s own styles (Word and PowerPoint)</td></tr></tbody></table></div>
 <p>What a loop repeats follows from where its tags are: within a paragraph, whole paragraphs (tags alone in their paragraphs), table rows, slides (tags each alone in a shape) or sheet rows (tags in different cells of a sheet). In Excel, a cell holding one value tag keeps the type of the value, and totals below repeated rows grow to cover the copies.</p>
 <h2 id="errors"><a class="anchor" href="#errors" aria-hidden="true">#</a>Errors</h2>
-<p>Errors have a stable code (<code>DV_E_*</code>), a place in the template and a hint. A template with problems gives <code>DV_E_TEMPLATE_INVALID</code>, data with problems <code>DV_E_DATA_INVALID</code>, each listing every problem in <code>errors</code>. The codes are described in <code>node_modules/docvane/docs/errors.md</code>; the template syntax in <code>docs/syntax.md</code> next to it, and the differences from docxtemplater in <code>docs/migrating-from-docxtemplater.md</code>. <code>node_modules/docvane/llms-full.txt</code> has all of it in one file.</p><p class="source">Source: <a href="https://github.com/DevXord/docvane/blob/b0d17da6825852e51e27bcadb29e42a4fe8e78bd/packages/docvane/skills/docvane/SKILL.md">packages/docvane/skills/docvane/SKILL.md</a> (version 1.0.0)</p></article>
+<p>Errors have a stable code (<code>TV_E_*</code>), a place in the template and a hint. A template with problems gives <code>TV_E_TEMPLATE_INVALID</code>, data with problems <code>TV_E_DATA_INVALID</code>, each listing every problem in <code>errors</code>. The codes are described in <code>node_modules/tplvane/docs/errors.md</code>; the template syntax in <code>docs/syntax.md</code> next to it, and the differences from docxtemplater in <code>docs/migrating-from-docxtemplater.md</code>. <code>node_modules/tplvane/llms-full.txt</code> has all of it in one file.</p><p class="source">Source: <a href="https://github.com/DevXord/tplvane/blob/b51002257898e4ff4401d27374d05f1f4ddbf929/packages/tplvane/skills/tplvane/SKILL.md">packages/tplvane/skills/tplvane/SKILL.md</a> (version 1.0.0)</p></article>
 </main>
 </div>
 <footer class="site-footer">
-  <p>docvane 1.0.0, MIT License. Pages built from the packages of commit b0d17da, before their release on npm. <a href="https://github.com/DevXord/docvane">Source on GitHub</a> · <a href="https://github.com/DevXord/docvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+  <p>tplvane 1.0.0, MIT License. Pages built from the packages of commit b510022, before their release on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
 </footer>
 </body>
 </html>

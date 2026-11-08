@@ -2,101 +2,101 @@ import { Inflate, deflateSync } from "../fflate/browser.js";
 import { deleteRows, editCells, insertRows, isXlvError, readWorkbook, shiftFormula } from "../xlvane/index.js";
 // src/version.ts
 /**
-* The version of the `docvane` package.
+* The version of the `tplvane` package.
 *
 * @example
 * ```ts
-* import { VERSION } from 'docvane';
+* import { VERSION } from 'tplvane';
 * console.log(VERSION);
 * ```
 */
 const VERSION$1 = "1.0.0";
 // src/errors.ts
 /** Base URL of the error catalogue. Every code has a heading (and so an anchor) there. */
-const DOCS_URL = "https://github.com/DevXord/docvane/blob/main/docs/errors.md";
+const DOCS_URL = "https://github.com/DevXord/tplvane/blob/main/docs/errors.md";
 /**
-* Every error code docvane can throw. Codes are stable: a code is never reused for a different
+* Every error code tplvane can throw. Codes are stable: a code is never reused for a different
 * condition. Each one is described in docs/errors.md.
 *
 * @example
 * ```ts
-* import { ERROR_CODES } from 'docvane';
-* console.log(ERROR_CODES.includes('DV_E_TAG_UNCLOSED')); // true
+* import { ERROR_CODES } from 'tplvane';
+* console.log(ERROR_CODES.includes('TV_E_TAG_UNCLOSED')); // true
 * ```
 */
 const ERROR_CODES = [
-	"DV_E_INVALID_INPUT",
-	"DV_E_INVALID_OPTION",
-	"DV_E_LIMIT_EXCEEDED",
-	"DV_E_NOT_ZIP",
-	"DV_E_UNSUPPORTED_CONTAINER",
-	"DV_E_ZIP_CORRUPT",
-	"DV_E_ZIP_UNSUPPORTED",
-	"DV_E_XML_MALFORMED",
-	"DV_E_XML_DTD_FORBIDDEN",
-	"DV_E_XML_ENTITY_FORBIDDEN",
-	"DV_E_XML_ENCODING",
-	"DV_E_PART_MISSING",
-	"DV_E_PART_INVALID",
-	"DV_E_NOT_SUPPORTED",
-	"DV_E_TEMPLATE_INVALID",
-	"DV_E_TAG_UNCLOSED",
-	"DV_E_TAG_UNOPENED",
-	"DV_E_TAG_EMPTY",
-	"DV_E_TAG_SYNTAX",
-	"DV_E_TAG_FORBIDDEN_NAME",
-	"DV_E_SECTION_UNCLOSED",
-	"DV_E_SECTION_UNOPENED",
-	"DV_E_SECTION_MISMATCH",
-	"DV_E_SECTION_PLACEMENT",
-	"DV_E_TAG_PLACEMENT",
-	"DV_E_FORMATTER_UNKNOWN",
-	"DV_E_FORMATTER_ARGS",
-	"DV_E_DATA_INVALID",
-	"DV_E_MISSING_FIELD",
-	"DV_E_INVALID_VALUE",
-	"DV_E_IMAGE_FETCH",
-	"DV_E_USAGE",
-	"DV_E_FILE_READ",
-	"DV_E_FILE_EXISTS",
-	"DV_E_FILE_WRITE",
-	"DV_E_INTERNAL"
+	"TV_E_INVALID_INPUT",
+	"TV_E_INVALID_OPTION",
+	"TV_E_LIMIT_EXCEEDED",
+	"TV_E_NOT_ZIP",
+	"TV_E_UNSUPPORTED_CONTAINER",
+	"TV_E_ZIP_CORRUPT",
+	"TV_E_ZIP_UNSUPPORTED",
+	"TV_E_XML_MALFORMED",
+	"TV_E_XML_DTD_FORBIDDEN",
+	"TV_E_XML_ENTITY_FORBIDDEN",
+	"TV_E_XML_ENCODING",
+	"TV_E_PART_MISSING",
+	"TV_E_PART_INVALID",
+	"TV_E_NOT_SUPPORTED",
+	"TV_E_TEMPLATE_INVALID",
+	"TV_E_TAG_UNCLOSED",
+	"TV_E_TAG_UNOPENED",
+	"TV_E_TAG_EMPTY",
+	"TV_E_TAG_SYNTAX",
+	"TV_E_TAG_FORBIDDEN_NAME",
+	"TV_E_SECTION_UNCLOSED",
+	"TV_E_SECTION_UNOPENED",
+	"TV_E_SECTION_MISMATCH",
+	"TV_E_SECTION_PLACEMENT",
+	"TV_E_TAG_PLACEMENT",
+	"TV_E_FORMATTER_UNKNOWN",
+	"TV_E_FORMATTER_ARGS",
+	"TV_E_DATA_INVALID",
+	"TV_E_MISSING_FIELD",
+	"TV_E_INVALID_VALUE",
+	"TV_E_IMAGE_FETCH",
+	"TV_E_USAGE",
+	"TV_E_FILE_READ",
+	"TV_E_FILE_EXISTS",
+	"TV_E_FILE_WRITE",
+	"TV_E_INTERNAL"
 ];
 /**
-* Every warning code docvane can report. Warnings never stop the work; they describe something
+* Every warning code tplvane can report. Warnings never stop the work; they describe something
 * in the template that the caller may want to know about. Each one is described in docs/errors.md.
 *
 * @example
 * ```ts
-* import { WARNING_CODES } from 'docvane';
-* console.log(WARNING_CODES.includes('DV_W_SCHEMA_CONFLICT')); // true
+* import { WARNING_CODES } from 'tplvane';
+* console.log(WARNING_CODES.includes('TV_W_SCHEMA_CONFLICT')); // true
 * ```
 */
 const WARNING_CODES = [
-	"DV_W_SCHEMA_CONFLICT",
-	"DV_W_PART_MISSING",
-	"DV_W_STYLE_MISSING",
-	"DV_W_DATA_SCHEMA"
+	"TV_W_SCHEMA_CONFLICT",
+	"TV_W_PART_MISSING",
+	"TV_W_STYLE_MISSING",
+	"TV_W_DATA_SCHEMA"
 ];
 /**
-* The only error type thrown by docvane for problems with templates, data or options. It says
+* The only error type thrown by tplvane for problems with templates, data or options. It says
 * what happened (`message`), where (`location`), what to do next (`hint`) and links to the
 * description of the code (`docsUrl`). `toJSON()` returns the same information as data. When a
-* template has several syntax problems, one `DV_E_TEMPLATE_INVALID` lists them all in `errors`.
+* template has several syntax problems, one `TV_E_TEMPLATE_INVALID` lists them all in `errors`.
 *
 * @example
 * ```ts
-* import { inspect, isDvError } from 'docvane';
+* import { inspect, isTvError } from 'tplvane';
 *
 * try {
 *   inspect(new Uint8Array([1, 2, 3]));
 * } catch (error) {
-*   if (isDvError(error)) console.log(error.code, error.hint); // "DV_E_NOT_ZIP", "..."
+*   if (isTvError(error)) console.log(error.code, error.hint); // "TV_E_NOT_ZIP", "..."
 * }
 * ```
 */
-var DvError = class extends Error {
-	name = "DvError";
+var TvError = class extends Error {
+	name = "TvError";
 	/** Stable error code, see docs/errors.md. */
 	code;
 	/** Where the problem is. Empty when the problem is not tied to a place in the file. */
@@ -107,7 +107,7 @@ var DvError = class extends Error {
 	docsUrl;
 	/** Machine-readable details. */
 	details;
-	/** The single problems behind `DV_E_TEMPLATE_INVALID` and `DV_E_DATA_INVALID`; empty for other codes. */
+	/** The single problems behind `TV_E_TEMPLATE_INVALID` and `TV_E_DATA_INVALID`; empty for other codes. */
 	errors;
 	constructor(code, message, init) {
 		super(message, init.cause === void 0 ? void 0 : { cause: init.cause });
@@ -133,25 +133,25 @@ var DvError = class extends Error {
 	}
 };
 /**
-* Returns `true` if `value` is a {@link DvError}.
+* Returns `true` if `value` is a {@link TvError}.
 *
 * @example
 * ```ts
-* import { isDvError } from 'docvane';
-* console.log(isDvError(new Error('x'))); // false
+* import { isTvError } from 'tplvane';
+* console.log(isTvError(new Error('x'))); // false
 * ```
 */
-function isDvError(value) {
-	return value instanceof DvError;
+function isTvError(value) {
+	return value instanceof TvError;
 }
 /** One error of `code` that lists `problems` in `errors` (render, inspect). @internal */
 function aggregate(code, problems, truncated) {
 	const first = problems[0];
 	const count = problems.length;
-	const what = code === "DV_E_TEMPLATE_INVALID" ? "template" : "data";
-	return new DvError(code, count === 1 ? `The ${what} has a problem: ${first.message}` : `The ${what} has ${String(count)}${truncated ? " or more" : ""} problems. The first: ${first.message}`, {
+	const what = code === "TV_E_TEMPLATE_INVALID" ? "template" : "data";
+	return new TvError(code, count === 1 ? `The ${what} has a problem: ${first.message}` : `The ${what} has ${String(count)}${truncated ? " or more" : ""} problems. The first: ${first.message}`, {
 		location: first.location,
-		hint: `Fix the problems listed in "errors"; each one has its place in the template${code === "DV_E_DATA_INVALID" ? " and names the field" : ""}. The first: ${first.hint}`,
+		hint: `Fix the problems listed in "errors"; each one has its place in the template${code === "TV_E_DATA_INVALID" ? " and names the field" : ""}. The first: ${first.hint}`,
 		details: {
 			count,
 			truncated
@@ -216,7 +216,7 @@ const MiB = 1048576;
 *
 * @example
 * ```ts
-* import { DEFAULT_LIMITS } from 'docvane';
+* import { DEFAULT_LIMITS } from 'tplvane';
 * console.log(DEFAULT_LIMITS.maxEntries, DEFAULT_LIMITS.maxTagLength); // 10000 1024
 * ```
 */
@@ -252,10 +252,10 @@ const LIMIT_NAMES = Object.keys(DEFAULT_LIMITS);
 function resolveLimits(input) {
 	const limits = { ...DEFAULT_LIMITS };
 	if (input === void 0) return limits;
-	if (input === null || typeof input !== "object" || Array.isArray(input)) throw new DvError("DV_E_INVALID_OPTION", `Option "limits" must be an object, got ${describe$2(input)}.`, { hint: "Pass an object such as { limits: { maxEntries: 10000 } }, or leave \"limits\" out to use the defaults." });
+	if (input === null || typeof input !== "object" || Array.isArray(input)) throw new TvError("TV_E_INVALID_OPTION", `Option "limits" must be an object, got ${describe$2(input)}.`, { hint: "Pass an object such as { limits: { maxEntries: 10000 } }, or leave \"limits\" out to use the defaults." });
 	for (const key of Object.keys(input)) if (!LIMIT_NAMES.includes(key)) {
 		const close = suggest(key, LIMIT_NAMES);
-		throw new DvError("DV_E_INVALID_OPTION", `Unknown limit "${key}".`, {
+		throw new TvError("TV_E_INVALID_OPTION", `Unknown limit "${key}".`, {
 			hint: close.length > 0 ? `Did you mean ${close.map((c) => `"${c}"`).join(" or ")}? Known limits: ${LIMIT_NAMES.join(", ")}.` : `Known limits: ${LIMIT_NAMES.join(", ")}.`,
 			details: {
 				option: key,
@@ -272,7 +272,7 @@ function resolveLimits(input) {
 }
 function validate$1(name, value) {
 	const isRatio = name === "maxCompressionRatio";
-	if (!(typeof value === "number" && (value === Number.POSITIVE_INFINITY || (isRatio ? Number.isFinite(value) && value >= 1 : Number.isSafeInteger(value) && value > 0)))) throw new DvError("DV_E_INVALID_OPTION", isRatio ? `Limit "${name}" must be a number of at least 1 or Infinity, got ${describe$2(value)}.` : `Limit "${name}" must be a whole number greater than 0 or Infinity, got ${describe$2(value)}.`, {
+	if (!(typeof value === "number" && (value === Number.POSITIVE_INFINITY || (isRatio ? Number.isFinite(value) && value >= 1 : Number.isSafeInteger(value) && value > 0)))) throw new TvError("TV_E_INVALID_OPTION", isRatio ? `Limit "${name}" must be a number of at least 1 or Infinity, got ${describe$2(value)}.` : `Limit "${name}" must be a whole number greater than 0 or Infinity, got ${describe$2(value)}.`, {
 		hint: `Pass for example { limits: { ${name}: ${String(DEFAULT_LIMITS[name])} } }, or leave it out to use the default.`,
 		details: { option: name }
 	});
@@ -285,9 +285,9 @@ function describe$2(value) {
 	if (typeof value === "object" || typeof value === "function") return `a value of type ${typeof value}`;
 	return String(value);
 }
-/** A `DV_E_LIMIT_EXCEEDED` error for `limit`, with the hint used by every template limit check. */
+/** A `TV_E_LIMIT_EXCEEDED` error for `limit`, with the hint used by every template limit check. */
 function limitError(limit, value, message, location = {}) {
-	return new DvError("DV_E_LIMIT_EXCEEDED", message, {
+	return new TvError("TV_E_LIMIT_EXCEEDED", message, {
 		location,
 		hint: `If you trust this template, raise the limit, for example { limits: { ${limit}: ${String(Number.isFinite(value) ? value * 4 : value)} } }.`,
 		details: {
@@ -328,7 +328,7 @@ var SchemaBuilder = class {
 			return existing;
 		}
 		this.warnings.push({
-			code: "DV_W_SCHEMA_CONFLICT",
+			code: "TV_W_SCHEMA_CONFLICT",
 			message: `"${path}" is used in ways that do not fit together: as ${describe$1(existing)} and as ${describe$1(incoming)}.`,
 			location: where,
 			hint: "Use different names for different data, or use the name the same way everywhere. The schema allows each of the uses (anyOf)."
@@ -670,8 +670,8 @@ const PREDEFINED_ENTITIES = /* @__PURE__ */ new Map([
 ]);
 /**
 * Parses an XML document held in a string and reports events to `handler`.
-* Throws {@link DvError} with `DV_E_XML_MALFORMED`, `DV_E_XML_DTD_FORBIDDEN`,
-* `DV_E_XML_ENTITY_FORBIDDEN` or `DV_E_LIMIT_EXCEEDED`.
+* Throws {@link TvError} with `TV_E_XML_MALFORMED`, `TV_E_XML_DTD_FORBIDDEN`,
+* `TV_E_XML_ENTITY_FORBIDDEN` or `TV_E_LIMIT_EXCEEDED`.
 */
 function parseXml(xml, handler, options) {
 	const parser = new Parser(handler, options, true);
@@ -1001,7 +1001,7 @@ var Parser = class {
 					limit: "maxXmlTextLength",
 					value: this.options.limits.maxXmlTextLength
 				};
-				throw new DvError("DV_E_LIMIT_EXCEEDED", message, {
+				throw new TvError("TV_E_LIMIT_EXCEEDED", message, {
 					location: this.segmentLocation,
 					hint: `If you trust this file, raise the limit, for example { limits: { maxXmlTextLength: ${String(this.options.limits.maxXmlTextLength * 4)} } }.`,
 					details
@@ -1036,9 +1036,9 @@ var Parser = class {
 				if (value === void 0) {
 					if (body.length > this.options.limits.maxXmlNameLength) this.limit("maxXmlNameLength", "Entity name is longer than the limit.", base + amp);
 					if (!this.isName(body)) this.fail("\"&\" must start an entity or character reference.", base + amp);
-					throw new DvError("DV_E_XML_ENTITY_FORBIDDEN", `Reference to entity "&${body};", which is not one of the five predefined XML entities.`, {
+					throw new TvError("TV_E_XML_ENTITY_FORBIDDEN", `Reference to entity "&${body};", which is not one of the five predefined XML entities.`, {
 						location: this.location(base + amp),
-						hint: "Only &lt; &gt; &amp; &apos; &quot; and character references such as &#160; are allowed, because docvane does not process DTDs. Re-save the file in the application that made it.",
+						hint: "Only &lt; &gt; &amp; &apos; &quot; and character references such as &#160; are allowed, because tplvane does not process DTDs. Re-save the file in the application that made it.",
 						details: { entity: body }
 					});
 				}
@@ -1280,9 +1280,9 @@ var Parser = class {
 		this.pos = end + 2;
 	}
 	failDoctype() {
-		throw new DvError("DV_E_XML_DTD_FORBIDDEN", "The part contains a document type declaration (DTD).", {
+		throw new TvError("TV_E_XML_DTD_FORBIDDEN", "The part contains a document type declaration (DTD).", {
 			location: this.location(this.pos),
-			hint: "docvane rejects DTDs to protect against external entities (XXE) and entity expansion attacks. Office Open XML parts do not use DTDs; if the file was generated by a program, report the problem to its authors."
+			hint: "tplvane rejects DTDs to protect against external entities (XXE) and entity expansion attacks. Office Open XML parts do not use DTDs; if the file was generated by a program, report the problem to its authors."
 		});
 	}
 	/** Location of an offset into the current buffer. */
@@ -1300,7 +1300,7 @@ var Parser = class {
 		};
 	}
 	fail(message, offset) {
-		throw new DvError("DV_E_XML_MALFORMED", message, {
+		throw new TvError("TV_E_XML_MALFORMED", message, {
 			location: this.location(offset),
 			hint: "The part is not well-formed XML. Re-save the file in the application that made it; if it was generated by a program, report the problem to its authors."
 		});
@@ -1321,7 +1321,7 @@ var Parser = class {
 			limit,
 			value: this.options.limits[limit]
 		};
-		throw new DvError("DV_E_LIMIT_EXCEEDED", message, {
+		throw new TvError("TV_E_LIMIT_EXCEEDED", message, {
 			location: this.location(offset),
 			hint: `If you trust this file, raise the limit, for example { limits: { ${limit}: ${String(this.options.limits[limit] * 4)} } }.`,
 			details
@@ -1341,7 +1341,7 @@ function decodeXml(bytes, part) {
 	try {
 		text = new TextDecoder(encoding, { fatal: true }).decode(bytes);
 	} catch (cause) {
-		throw new DvError("DV_E_XML_ENCODING", `The part is not valid ${encoding.toUpperCase()}.`, {
+		throw new TvError("TV_E_XML_ENCODING", `The part is not valid ${encoding.toUpperCase()}.`, {
 			location: { part },
 			hint: "Office Open XML parts must be encoded in UTF-8 or UTF-16. Re-save the file in the application that made it.",
 			cause
@@ -1350,7 +1350,7 @@ function decodeXml(bytes, part) {
 	const declared = declaredEncoding(text);
 	if (declared !== null) {
 		const normalized = declared.toLowerCase();
-		if (!(encoding === "utf-8" ? normalized === "utf-8" : normalized === "utf-16" || normalized === encoding)) throw new DvError("DV_E_XML_ENCODING", `The part declares encoding "${clip(declared)}", which is not supported.`, {
+		if (!(encoding === "utf-8" ? normalized === "utf-8" : normalized === "utf-16" || normalized === encoding)) throw new TvError("TV_E_XML_ENCODING", `The part declares encoding "${clip(declared)}", which is not supported.`, {
 			location: { part },
 			hint: "Office Open XML parts must be encoded in UTF-8 or UTF-16. Re-save the file in the application that made it.",
 			details: { encoding: clip(declared) }
@@ -1395,7 +1395,7 @@ function parseXmlTree(xml, options) {
 				return;
 			}
 			count += 1 + attrs.size;
-			if (count > options.limits.maxXmlTreeElements) throw new DvError("DV_E_LIMIT_EXCEEDED", "The part has more elements and attributes than the limit.", {
+			if (count > options.limits.maxXmlTreeElements) throw new TvError("TV_E_LIMIT_EXCEEDED", "The part has more elements and attributes than the limit.", {
 				location: { part: options.part },
 				hint: `If you trust this file, raise the limit, for example { limits: { maxXmlTreeElements: ${String(options.limits.maxXmlTreeElements * 4)} } }.`,
 				details: {
@@ -1683,7 +1683,7 @@ const PACKAGE_RELATIONSHIPS = "/_rels/.rels";
 const INVALID_HINT = "The package structure is damaged or was written by a program that does not follow ECMA-376 Part 2. Re-save the file in the application that made it; if a program generated it, report the problem to its authors.";
 const EMPTY = Object.freeze([]);
 function invalid(part, message, reason, extra = {}) {
-	return new DvError("DV_E_PART_INVALID", message, {
+	return new TvError("TV_E_PART_INVALID", message, {
 		location: { part },
 		hint: INVALID_HINT,
 		details: {
@@ -1740,7 +1740,7 @@ function resolveTarget(source, target) {
 * F-OPC-12, F-OPC-13) and reads the Media Types stream, which a ZIP package must contain
 * (§7.2.3.1, F-OPC-09). Relationships parts are read on demand.
 *
-* Throws `DV_E_PART_MISSING` without `[Content_Types].xml`, `DV_E_PART_INVALID` for two items
+* Throws `TV_E_PART_MISSING` without `[Content_Types].xml`, `TV_E_PART_INVALID` for two items
 * with equivalent part names or a malformed Media Types stream, and whatever the ZIP and XML
 * layers throw.
 */
@@ -1771,7 +1771,7 @@ function openPackage(zip, limits) {
 		});
 		partNames.push(name);
 	}
-	if (contentTypes === void 0) throw new DvError("DV_E_PART_MISSING", interleaved ? "The package stores [Content_Types].xml in interleaved pieces, which Office Open XML documents must not use." : "The package has no [Content_Types].xml, so it is not an Office Open XML package.", {
+	if (contentTypes === void 0) throw new TvError("TV_E_PART_MISSING", interleaved ? "The package stores [Content_Types].xml in interleaved pieces, which Office Open XML documents must not use." : "The package has no [Content_Types].xml, so it is not an Office Open XML package.", {
 		location: { part: CONTENT_TYPES_LOCATION },
 		hint: "Check that the file is a .docx, .pptx or .xlsx document and not another ZIP-based format (such as .odt or .zip). If it is, re-save it in the application that made it.",
 		details: { reason: interleaved ? "interleaved" : "missing" }
@@ -1969,7 +1969,7 @@ const CFB_SIGNATURE = [
 ];
 const CORRUPT_HINT = "The file is damaged or is not a valid Office document. Re-save it in the application that made it or ask the sender for a new copy.";
 function corrupt(message, reason, offset, extra = {}) {
-	return new DvError("DV_E_ZIP_CORRUPT", message, {
+	return new TvError("TV_E_ZIP_CORRUPT", message, {
 		location: offset === void 0 ? {} : { offset },
 		hint: CORRUPT_HINT,
 		details: {
@@ -1979,14 +1979,14 @@ function corrupt(message, reason, offset, extra = {}) {
 	});
 }
 function unsupported$1(message, reason, hint, name) {
-	return new DvError("DV_E_ZIP_UNSUPPORTED", message, {
+	return new TvError("TV_E_ZIP_UNSUPPORTED", message, {
 		location: name === void 0 ? {} : { part: `/${name}` },
 		hint,
 		details: { reason }
 	});
 }
 function limitExceeded(limit, value, message, name) {
-	return new DvError("DV_E_LIMIT_EXCEEDED", message, {
+	return new TvError("TV_E_LIMIT_EXCEEDED", message, {
 		location: name === void 0 ? {} : { part: `/${name}` },
 		hint: `If you trust this file, raise the limit, for example { limits: { ${limit}: ${String(value * 4)} } }.`,
 		details: {
@@ -2100,8 +2100,8 @@ var Bytes = class Bytes {
 };
 /**
 * Opens a ZIP archive held in memory and validates its structure. Throws
-* `DV_E_NOT_ZIP`, `DV_E_UNSUPPORTED_CONTAINER`, `DV_E_ZIP_CORRUPT`,
-* `DV_E_ZIP_UNSUPPORTED` or `DV_E_LIMIT_EXCEEDED`.
+* `TV_E_NOT_ZIP`, `TV_E_UNSUPPORTED_CONTAINER`, `TV_E_ZIP_CORRUPT`,
+* `TV_E_ZIP_UNSUPPORTED` or `TV_E_LIMIT_EXCEEDED`.
 */
 function openZip(data, limits) {
 	checkSource(data.length, data.subarray(0, CFB_SIGNATURE.length), limits);
@@ -2115,7 +2115,7 @@ CFB_SIGNATURE.length;
 /** Input size limit and CFB detection, from the size and the first bytes of the input. */
 function checkSource(size, head, limits) {
 	if (size > limits.maxInputBytes) throw limitExceeded("maxInputBytes", limits.maxInputBytes, `The input is ${size} bytes, more than the limit.`);
-	if (CFB_SIGNATURE.every((b, i) => head[i] === b)) throw new DvError("DV_E_UNSUPPORTED_CONTAINER", "The file is a Compound File Binary container, not a ZIP-based Office document.", { hint: "This is either a legacy binary file (.doc, .ppt, .xls) or a password-protected (encrypted) document. Open it in its application and save it without a password in the current format (.docx, .pptx, .xlsx)." });
+	if (CFB_SIGNATURE.every((b, i) => head[i] === b)) throw new TvError("TV_E_UNSUPPORTED_CONTAINER", "The file is a Compound File Binary container, not a ZIP-based Office document.", { hint: "This is either a legacy binary file (.doc, .ppt, .xls) or a password-protected (encrypted) document. Open it in its application and save it without a password in the current format (.docx, .pptx, .xlsx)." });
 }
 /**
 * Finds and checks the end of central directory record (and the ZIP64 record and locator).
@@ -2172,7 +2172,7 @@ function findEndOfCentralDirectory(b) {
 	}
 	if (size >= 4 && b.u32(0) === SIG_LOCAL$1) throw corrupt("The end of the ZIP archive is missing; the file is probably truncated.", "eocd-missing");
 	if (size >= EOCD_SIZE && data.indexOf(80) !== -1 && containsSignature(data, 0)) throw corrupt("The end of central directory record is followed by unexpected data.", "trailing-data");
-	throw new DvError("DV_E_NOT_ZIP", "The input is not a ZIP archive, so it cannot be an Office document.", { hint: "DOCX, PPTX and XLSX files are ZIP archives. Check that the file is a .docx, .pptx or .xlsx document and not a legacy, PDF or text file." });
+	throw new TvError("TV_E_NOT_ZIP", "The input is not a ZIP archive, so it cannot be an Office document.", { hint: "DOCX, PPTX and XLSX files are ZIP archives. Check that the file is a .docx, .pptx or .xlsx document and not a legacy, PDF or text file." });
 }
 function containsSignature(data, from) {
 	for (let at = data.length - 4; at >= from; at--) if (data[at] === 80 && data[at + 1] === 75 && data[at + 2] === 5 && data[at + 3] === 6) return true;
@@ -2335,7 +2335,7 @@ var Reader = class {
 	}
 	read(entryOrName) {
 		const entry = typeof entryOrName === "string" ? this.find(entryOrName) : entryOrName;
-		if (entry === void 0) throw new DvError("DV_E_PART_MISSING", `The archive has no entry "${String(entryOrName)}".`, {
+		if (entry === void 0) throw new TvError("TV_E_PART_MISSING", `The archive has no entry "${String(entryOrName)}".`, {
 			location: { part: `/${String(entryOrName)}` },
 			hint: "The document is incomplete. Re-save it in the application that made it."
 		});
@@ -2378,8 +2378,8 @@ var Reader = class {
 			if (compressed.length === 0) inflater.push(compressed, true);
 			for (let at = 0; at < compressed.length; at += INFLATE_CHUNK) inflater.push(compressed.subarray(at, at + INFLATE_CHUNK), at + INFLATE_CHUNK >= compressed.length);
 		} catch (error) {
-			if (error instanceof DvError) throw error;
-			throw new DvError("DV_E_ZIP_CORRUPT", `ZIP entry "${entry.name}" is not a valid Deflate stream.`, {
+			if (error instanceof TvError) throw error;
+			throw new TvError("TV_E_ZIP_CORRUPT", `ZIP entry "${entry.name}" is not a valid Deflate stream.`, {
 				location: {
 					part: `/${entry.name}`,
 					offset: entry.headerOffset
@@ -2409,7 +2409,7 @@ function parseRawTree(xml, options) {
 	const maxNodes = options.limits.maxXmlTreeElements ?? Number.POSITIVE_INFINITY;
 	let nodes = 0;
 	const count = () => {
-		if (++nodes > maxNodes) throw new DvError("DV_E_LIMIT_EXCEEDED", "The part has more XML elements than the limit.", {
+		if (++nodes > maxNodes) throw new TvError("TV_E_LIMIT_EXCEEDED", "The part has more XML elements than the limit.", {
 			location: { part: options.part },
 			hint: `If you trust this file, raise the limit, for example { limits: { maxXmlTreeElements: ${String(maxNodes * 4)} } }.`,
 			details: {
@@ -2965,7 +2965,7 @@ function presentationSlides(pkg, main, limits) {
 		const rel = rels.find((r) => r.id === rId);
 		if (rId === void 0 || rel === void 0 || !isRelationship(rel, "slide") || !pkg.hasPart(rel.target)) {
 			warnings.push({
-				code: "DV_W_PART_MISSING",
+				code: "TV_W_PART_MISSING",
 				message: "The presentation lists a slide whose part does not exist; it was skipped.",
 				location: { part: main },
 				hint: "Re-save the presentation in PowerPoint or LibreOffice to repair it."
@@ -3054,7 +3054,7 @@ function rootElement(xml, part, limits) {
 		};
 		throw error;
 	}
-	throw new DvError("DV_E_INTERNAL", "The main part has no root element.", {
+	throw new TvError("TV_E_INTERNAL", "The main part has no root element.", {
 		location: { part },
 		hint: "This is an internal error; please report it with the file."
 	});
@@ -3064,13 +3064,13 @@ function find(rels, name) {
 }
 /**
 * Opens `bytes` as a template package: a document, a presentation or a workbook. Throws
-* `DV_E_NOT_SUPPORTED` for other packages, and the ZIP, XML and package errors of the layers below.
+* `TV_E_NOT_SUPPORTED` for other packages, and the ZIP, XML and package errors of the layers below.
 */
 function openDocx(bytes, limits) {
 	const zip = openZip(bytes, limits);
 	const pkg = openPackage(zip, limits);
 	const officeDocument = find(pkg.relationships(null), "officeDocument");
-	if (officeDocument === void 0 || !pkg.hasPart(officeDocument.target)) throw new DvError("DV_E_PART_MISSING", "The package has no main document part.", {
+	if (officeDocument === void 0 || !pkg.hasPart(officeDocument.target)) throw new TvError("TV_E_PART_MISSING", "The package has no main document part.", {
 		location: officeDocument === void 0 ? { part: "/_rels/.rels" } : { part: officeDocument.target },
 		hint: "This is not a complete Office document: the package does not point to its main part. Check that the file is a .docx, .pptx or .xlsx file and re-save it in the application that made it."
 	});
@@ -3095,7 +3095,7 @@ function openDocx(bytes, limits) {
 		stories: [],
 		warnings: []
 	};
-	if (!(WML_NAMESPACES.has(root.ns) && root.local === "document")) throw new DvError("DV_E_NOT_SUPPORTED", `The file is not a Word document, a PowerPoint presentation or an Excel workbook: its main part is a "${clip(root.local)}" element.`, {
+	if (!(WML_NAMESPACES.has(root.ns) && root.local === "document")) throw new TvError("TV_E_NOT_SUPPORTED", `The file is not a Word document, a PowerPoint presentation or an Excel workbook: its main part is a "${clip(root.local)}" element.`, {
 		location: { part: main },
 		hint: "Pass a Word document (.docx), a PowerPoint presentation (.pptx) or an Excel workbook (.xlsx).",
 		details: {
@@ -3115,7 +3115,7 @@ function openDocx(bytes, limits) {
 		seen.add(partKey(rel.target));
 		if (!pkg.hasPart(rel.target)) {
 			warnings.push({
-				code: "DV_W_PART_MISSING",
+				code: "TV_W_PART_MISSING",
 				message: `The document refers to a ${story} part that does not exist; it was skipped.`,
 				location: { part: rel.target },
 				hint: "Re-save the document in Word or LibreOffice to repair it."
@@ -3237,7 +3237,7 @@ function checkLinkUrl(url) {
 	return "Only http, https and mailto addresses can be links.";
 }
 // src/expr/formatters.ts
-/** Thrown by a formatter for a value it cannot format; becomes DV_E_INVALID_VALUE with the tag's place. */
+/** Thrown by a formatter for a value it cannot format; becomes TV_E_INVALID_VALUE with the tag's place. */
 var ValueError = class extends Error {
 	hint;
 	constructor(message, hint) {
@@ -3581,14 +3581,14 @@ function checkFormatter(call) {
 	if (spec === void 0) {
 		const close = suggest(call.name, FORMATTER_NAMES);
 		return {
-			code: "DV_E_FORMATTER_UNKNOWN",
+			code: "TV_E_FORMATTER_UNKNOWN",
 			message: `There is no formatter "${call.name}".`,
 			hint: `${close.length > 0 ? `Did you mean ${close.map((c) => `"${c}"`).join(" or ")}? ` : ""}The formatters are ${FORMATTER_NAMES.join(", ")}.`
 		};
 	}
 	const required = spec.params.filter((p) => p.optional !== true).length;
 	const bad = (message) => ({
-		code: "DV_E_FORMATTER_ARGS",
+		code: "TV_E_FORMATTER_ARGS",
 		message,
 		hint: `Write it as ${spec.usage}.`
 	});
@@ -3631,7 +3631,7 @@ function delimiterChange(inner) {
 }
 /**
 * Finds the tags of `text` between `delimiters`. A tag longer than `maxTagLength` (delimiters
-* included) is reported as a `DV_E_LIMIT_EXCEEDED` problem and not parsed. A tag `=start end=`
+* included) is reported as a `TV_E_LIMIT_EXCEEDED` problem and not parsed. A tag `=start end=`
 * changes the delimiters for the rest of the text; the delimiters in force at the end are
 * returned, for the next paragraph. Stops collecting problems after `maxProblems`.
 */
@@ -3658,7 +3658,7 @@ function lexText(text, maxTagLength, maxProblems = Number.POSITIVE_INFINITY, del
 		const close = next("close", at);
 		if (close !== -1 && (open === -1 || close < open)) {
 			problem({
-				code: "DV_E_TAG_UNOPENED",
+				code: "TV_E_TAG_UNOPENED",
 				start: close,
 				raw: closeText
 			});
@@ -3672,7 +3672,7 @@ function lexText(text, maxTagLength, maxProblems = Number.POSITIVE_INFINITY, del
 		if (closeAfter === -1 || nextOpen !== -1 && nextOpen < closeAfter) {
 			const end = nextOpen === -1 ? text.length : nextOpen;
 			problem({
-				code: "DV_E_TAG_UNCLOSED",
+				code: "TV_E_TAG_UNCLOSED",
 				start: open,
 				raw: clip(text.slice(open, end))
 			});
@@ -3686,7 +3686,7 @@ function lexText(text, maxTagLength, maxProblems = Number.POSITIVE_INFINITY, del
 		at = end;
 		if (raw.length > maxTagLength) {
 			problem({
-				code: "DV_E_LIMIT_EXCEEDED",
+				code: "TV_E_LIMIT_EXCEEDED",
 				start: open,
 				raw: clip(raw)
 			});
@@ -3695,7 +3695,7 @@ function lexText(text, maxTagLength, maxProblems = Number.POSITIVE_INFINITY, del
 		const change = delimiterChange(inner);
 		if (typeof change === "string") {
 			problem({
-				code: "DV_E_TAG_SYNTAX",
+				code: "TV_E_TAG_SYNTAX",
 				start: open,
 				raw: clip(raw)
 			});
@@ -3736,7 +3736,7 @@ const sectionText = (tag) => `{${tag.info.kind === "inverted" ? "^" : "#"}${tag.
 /**
 * Builds the tree of one part. Problems (unclosed, unopened and crossed sections, and `{.}` outside
 * a section) are returned, not thrown; nesting deeper than `maxSectionDepth` throws
-* `DV_E_LIMIT_EXCEEDED`.
+* `TV_E_LIMIT_EXCEEDED`.
 */
 function buildTree(tags, limits) {
 	const root = [];
@@ -3758,7 +3758,7 @@ function buildTree(tags, limits) {
 				let at = stack.length - 1;
 				if (tag.path !== "") while (at >= 0 && stack[at].open.info.path !== tag.path) at--;
 				if (at < 0) {
-					problems.push(new DvError("DV_E_SECTION_UNOPENED", `"${tag.raw}" closes a section that is not open.`, {
+					problems.push(new TvError("TV_E_SECTION_UNOPENED", `"${tag.raw}" closes a section that is not open.`, {
 						location: tag.location,
 						hint: `${tag.path === "" ? "Add an opening tag such as {#items}" : `Add {#${tag.path}}`} before it, or delete it. A section must open and close in the same part of the document (the body, a header, a footer or the notes).`,
 						details: { tag: tag.raw }
@@ -3767,7 +3767,7 @@ function buildTree(tags, limits) {
 				}
 				if (at !== stack.length - 1) {
 					const inner = stack[stack.length - 1];
-					problems.push(new DvError("DV_E_SECTION_MISMATCH", `"{/${tag.path}}" comes before the end of "${sectionText(inner.open)}", which is inside it.`, {
+					problems.push(new TvError("TV_E_SECTION_MISMATCH", `"{/${tag.path}}" comes before the end of "${sectionText(inner.open)}", which is inside it.`, {
 						location: tag.location,
 						hint: `Close the inner section first: put {/${inner.open.info.path}} before {/${tag.path}}.`,
 						details: {
@@ -3790,7 +3790,7 @@ function buildTree(tags, limits) {
 				break;
 			}
 			default:
-				if (record.parsed.paths.includes(".") && stack.length === 0) problems.push(new DvError("DV_E_TAG_SYNTAX", `"${tag.raw}" stands for the current item of a loop, but it is not inside a section.`, {
+				if (record.parsed.paths.includes(".") && stack.length === 0) problems.push(new TvError("TV_E_TAG_SYNTAX", `"${tag.raw}" stands for the current item of a loop, but it is not inside a section.`, {
 					location: tag.location,
 					hint: "Use {.} only between {#list} and {/list}, or write the name of the field, for example {name}.",
 					details: { tag: tag.raw }
@@ -3798,7 +3798,7 @@ function buildTree(tags, limits) {
 				children().push({ tag: record });
 		}
 	}
-	for (const frame of stack) problems.push(new DvError("DV_E_SECTION_UNCLOSED", `The section "${sectionText(frame.open)}" is not closed.`, {
+	for (const frame of stack) problems.push(new TvError("TV_E_SECTION_UNCLOSED", `The section "${sectionText(frame.open)}" is not closed.`, {
 		location: frame.open.info.location,
 		hint: `Add {/${frame.open.info.path}} after the content of the section, in the same part of the document (the body, a header, a footer or the notes).`,
 		details: { tag: frame.open.info.raw }
@@ -3878,7 +3878,7 @@ var Scanner = class {
 	}
 	fail(message, hint = SYNTAX_HINT, at = this.pos) {
 		throw new Problem({
-			code: "DV_E_TAG_SYNTAX",
+			code: "TV_E_TAG_SYNTAX",
 			message,
 			hint,
 			position: at
@@ -3906,7 +3906,7 @@ function readName(sc, what) {
 	while (isIdContinue(sc.peek())) sc.next();
 	const name = sc.s.slice(start, sc.pos);
 	if (FORBIDDEN_NAMES.has(name)) throw new Problem({
-		code: "DV_E_TAG_FORBIDDEN_NAME",
+		code: "TV_E_TAG_FORBIDDEN_NAME",
 		message: `"${name}" cannot be used as a name in a tag.`,
 		hint: "The names __proto__, constructor and prototype are reserved because they reach the internals of JavaScript objects. Rename the field in the template and in the data.",
 		position: start
@@ -4045,7 +4045,7 @@ var ExprParser = class {
 	enter() {
 		this.depth++;
 		if (this.depth > this.maxDepth || this.depth > 256) throw new Problem({
-			code: "DV_E_LIMIT_EXCEEDED",
+			code: "TV_E_LIMIT_EXCEEDED",
 			message: `The expression is nested more than ${String(Math.min(this.maxDepth, 256))} levels deep.`,
 			hint: "Use fewer parentheses and \"!\". If you trust this template, raise limits.maxExpressionDepth.",
 			position: this.sc.pos
@@ -4053,7 +4053,7 @@ var ExprParser = class {
 	}
 	chain() {
 		if (++this.operators > 256) throw new Problem({
-			code: "DV_E_LIMIT_EXCEEDED",
+			code: "TV_E_LIMIT_EXCEEDED",
 			message: `The expression has more than ${String(256)} "&&" and "||".`,
 			hint: "Split the condition into nested sections, or compute the value in the data.",
 			position: this.sc.pos
@@ -4190,7 +4190,7 @@ function parseTag(inner, maxDepth = 32) {
 	const sc = new Scanner(inner);
 	try {
 		sc.skipWs();
-		if (sc.peek() === "@") sc.fail("Raw XML tags such as {@rawXml} are not supported: docvane escapes every value, so data cannot change the structure of a document.", "Use a value tag; for formatted text, use Markdown with {~name}.");
+		if (sc.peek() === "@") sc.fail("Raw XML tags such as {@rawXml} are not supported: tplvane escapes every value, so data cannot change the structure of a document.", "Use a value tag; for formatted text, use Markdown with {~name}.");
 		if (sc.peek() === "-" && /^-[\w]+:[\w]+\s/.test(inner.trimStart())) sc.fail("Loops over a named element such as {-w:p loop} are not supported.", "Use {#loop} … {/loop}: a loop whose tags are alone in their paragraphs repeats the paragraphs, and one in a table row repeats the row.");
 		const kind = SIGILS.get(sc.peek()) ?? "value";
 		if (kind !== "value") {
@@ -4209,7 +4209,7 @@ function parseTag(inner, maxDepth = 32) {
 			paths: []
 		};
 		if (sc.done) return {
-			code: "DV_E_TAG_EMPTY",
+			code: "TV_E_TAG_EMPTY",
 			message: kind === "value" ? "The tag is empty." : "The tag has no name.",
 			hint: "Write a name between the braces, for example {customer.name}, or delete the braces if they are meant as text.",
 			position: sc.pos
@@ -4385,21 +4385,21 @@ function extendAreas(formula, change) {
 }
 // src/xlsx/errors.ts
 const SAME = /* @__PURE__ */ new Map([
-	["XLV_E_LIMIT_EXCEEDED", "DV_E_LIMIT_EXCEEDED"],
-	["XLV_E_NOT_ZIP", "DV_E_NOT_ZIP"],
-	["XLV_E_UNSUPPORTED_CONTAINER", "DV_E_UNSUPPORTED_CONTAINER"],
-	["XLV_E_ZIP_CORRUPT", "DV_E_ZIP_CORRUPT"],
-	["XLV_E_ZIP_UNSUPPORTED", "DV_E_ZIP_UNSUPPORTED"],
-	["XLV_E_XML_MALFORMED", "DV_E_XML_MALFORMED"],
-	["XLV_E_XML_DTD_FORBIDDEN", "DV_E_XML_DTD_FORBIDDEN"],
-	["XLV_E_XML_ENTITY_FORBIDDEN", "DV_E_XML_ENTITY_FORBIDDEN"],
-	["XLV_E_XML_ENCODING", "DV_E_XML_ENCODING"],
-	["XLV_E_PART_MISSING", "DV_E_PART_MISSING"],
-	["XLV_E_NOT_SUPPORTED", "DV_E_NOT_SUPPORTED"],
-	["XLV_E_INVALID_VALUE", "DV_E_INVALID_VALUE"],
-	["XLV_E_INTERNAL", "DV_E_INTERNAL"]
+	["XLV_E_LIMIT_EXCEEDED", "TV_E_LIMIT_EXCEEDED"],
+	["XLV_E_NOT_ZIP", "TV_E_NOT_ZIP"],
+	["XLV_E_UNSUPPORTED_CONTAINER", "TV_E_UNSUPPORTED_CONTAINER"],
+	["XLV_E_ZIP_CORRUPT", "TV_E_ZIP_CORRUPT"],
+	["XLV_E_ZIP_UNSUPPORTED", "TV_E_ZIP_UNSUPPORTED"],
+	["XLV_E_XML_MALFORMED", "TV_E_XML_MALFORMED"],
+	["XLV_E_XML_DTD_FORBIDDEN", "TV_E_XML_DTD_FORBIDDEN"],
+	["XLV_E_XML_ENTITY_FORBIDDEN", "TV_E_XML_ENTITY_FORBIDDEN"],
+	["XLV_E_XML_ENCODING", "TV_E_XML_ENCODING"],
+	["XLV_E_PART_MISSING", "TV_E_PART_MISSING"],
+	["XLV_E_NOT_SUPPORTED", "TV_E_NOT_SUPPORTED"],
+	["XLV_E_INVALID_VALUE", "TV_E_INVALID_VALUE"],
+	["XLV_E_INTERNAL", "TV_E_INTERNAL"]
 ]);
-/** The place of an xlvane error in docvane's terms. */
+/** The place of an xlvane error in tplvane's terms. */
 function locationOf(error) {
 	const { part, sheet, cell } = error.location;
 	const where = sheet === void 0 ? {} : {
@@ -4414,21 +4414,21 @@ function locationOf(error) {
 	};
 }
 /**
-* Runs `fn`, turning an XlvError into a DvError with the same message and hint. `context` says
-* what docvane was doing, for errors that the template author cannot read as they are.
+* Runs `fn`, turning an XlvError into a TvError with the same message and hint. `context` says
+* what tplvane was doing, for errors that the template author cannot read as they are.
 */
 function viaXlvane(fn, context) {
 	try {
 		return fn();
 	} catch (error) {
 		if (!isXlvError(error)) throw error;
-		const code = SAME.get(error.code) ?? "DV_E_PART_INVALID";
+		const code = SAME.get(error.code) ?? "TV_E_PART_INVALID";
 		const details = { xlvaneCode: error.code };
 		const limit = error.details["limit"];
 		if (typeof limit === "string") details["limit"] = limit;
 		const value = error.details["value"];
 		if (typeof value === "number") details["value"] = value;
-		throw new DvError(code, `${context}: ${error.message}`, {
+		throw new TvError(code, `${context}: ${error.message}`, {
 			location: locationOf(error),
 			hint: error.hint,
 			details,
@@ -4455,7 +4455,7 @@ function cellLocation(sheet, ref) {
 		...location
 	};
 }
-/** The read limits of docvane in the shape xlvane takes them; xlvane's own cell limits keep their defaults. */
+/** The read limits of tplvane in the shape xlvane takes them; xlvane's own cell limits keep their defaults. */
 function xlvaneLimits(limits) {
 	const { maxInputBytes, maxEntries, maxEntryBytes, maxTotalBytes, maxCompressionRatio, compressionRatioMinBytes, maxXmlDepth, maxXmlAttributes, maxXmlNameLength, maxXmlTextLength, maxXmlTreeElements } = limits;
 	return {
@@ -4473,7 +4473,7 @@ function xlvaneLimits(limits) {
 	};
 }
 function placement$1(tag, message, hint) {
-	return new DvError("DV_E_SECTION_PLACEMENT", message, {
+	return new TvError("TV_E_SECTION_PLACEMENT", message, {
 		location: tag.info.location,
 		hint,
 		details: { tag: clip(tag.info.raw) }
@@ -4482,12 +4482,12 @@ function placement$1(tag, message, hint) {
 /** Tags that need what an Excel template cannot do through xlvane yet (D-043). */
 function unsupported(tag) {
 	const raw = clip(tag.info.raw);
-	if (tag.info.kind === "image" || tag.info.kind === "markdown") return new DvError("DV_E_NOT_SUPPORTED", `${tag.info.kind === "image" ? "Image" : "Markdown"} tags such as "${raw}" are not supported in Excel templates yet.`, {
+	if (tag.info.kind === "image" || tag.info.kind === "markdown") return new TvError("TV_E_NOT_SUPPORTED", `${tag.info.kind === "image" ? "Image" : "Markdown"} tags such as "${raw}" are not supported in Excel templates yet.`, {
 		location: tag.info.location,
 		hint: tag.info.kind === "image" ? "Remove the tag, or use a Word or PowerPoint template for images." : `Write the text with a value tag instead, for example {${tag.info.path}}.`,
 		details: { tag: raw }
 	});
-	if ([...formattersOf(tag.parsed.expr), ...tag.parsed.formatters].some((f) => f.name === "link")) return new DvError("DV_E_NOT_SUPPORTED", `The link formatter in "${raw}" is not supported in Excel templates yet.`, {
+	if ([...formattersOf(tag.parsed.expr), ...tag.parsed.formatters].some((f) => f.name === "link")) return new TvError("TV_E_NOT_SUPPORTED", `The link formatter in "${raw}" is not supported in Excel templates yet.`, {
 		location: tag.info.location,
 		hint: "Write the address as text without \"| link\", or add the hyperlink to the cell in Excel.",
 		details: { tag: raw }
@@ -4574,7 +4574,7 @@ function analyzeWorkbook(bytes, limits, scan, report, delimiters = DEFAULT_DELIM
 }
 /**
 * Array formulas and data tables cannot be copied into repeated rows, and xlvane writes no array
-* formula, so one that the docvane rule would extend (D-041) cannot be either. Both are template
+* formula, so one that the tplvane rule would extend (D-041) cannot be either. Both are template
 * problems, reported by inspect and validate as well as render (D-071).
 */
 function checkArrayFormulas(workbook, sheets, report) {
@@ -4593,7 +4593,7 @@ function checkArrayFormulas(workbook, sheets, report) {
 					to: rows.last + 1
 				}) !== formula.text;
 				if (!inside && !extended) continue;
-				report(new DvError("DV_E_NOT_SUPPORTED", inside ? `The ${formula.kind === "array" ? "array formula" : "data table"} in ${other.name}!${cell.ref} is in rows that repeat.` : `The array formula in ${other.name}!${cell.ref} refers to the rows of ${clip(rows.section.open.info.raw)}, which grow, and array formulas cannot be extended yet.`, {
+				report(new TvError("TV_E_NOT_SUPPORTED", inside ? `The ${formula.kind === "array" ? "array formula" : "data table"} in ${other.name}!${cell.ref} is in rows that repeat.` : `The array formula in ${other.name}!${cell.ref} refers to the rows of ${clip(rows.section.open.info.raw)}, which grow, and array formulas cannot be extended yet.`, {
 					location: cellLocation(other, cell.ref),
 					hint: inside ? "Move it out of the rows that repeat, or write it as an ordinary formula." : "Write it as an ordinary formula, such as SUMPRODUCT instead of an array SUM, so that it grows with the rows.",
 					details: { kind: formula.kind }
@@ -4669,18 +4669,18 @@ function classify(sheet, tree, cellOf, report) {
 // src/template/analyze.ts
 function lexProblem(problem, location, limits) {
 	switch (problem.code) {
-		case "DV_E_TAG_UNCLOSED": return new DvError("DV_E_TAG_UNCLOSED", `The tag "${problem.raw}" is not closed.`, {
+		case "TV_E_TAG_UNCLOSED": return new TvError("TV_E_TAG_UNCLOSED", `The tag "${problem.raw}" is not closed.`, {
 			location,
 			hint: "End the tag with \"}\". A tag must start and end in the same paragraph and cannot contain another \"{\"; braces are reserved for tags.",
 			details: { tag: problem.raw }
 		});
-		case "DV_E_TAG_UNOPENED": return new DvError("DV_E_TAG_UNOPENED", "The text has a \"}\" without a \"{\" before it.", {
+		case "TV_E_TAG_UNOPENED": return new TvError("TV_E_TAG_UNOPENED", "The text has a \"}\" without a \"{\" before it.", {
 			location,
 			hint: "Delete the \"}\" or add the missing \"{\"; braces are reserved for tags. A tag must start and end in the same paragraph.",
 			details: { tag: problem.raw }
 		});
-		case "DV_E_LIMIT_EXCEEDED": return limitError("maxTagLength", limits.maxTagLength, `The tag "${clip(problem.raw.slice(0, 40))}" is longer than ${String(limits.maxTagLength)} characters.`, location);
-		case "DV_E_TAG_SYNTAX": return new DvError("DV_E_TAG_SYNTAX", `The tag "${problem.raw}" does not set valid delimiters.`, {
+		case "TV_E_LIMIT_EXCEEDED": return limitError("maxTagLength", limits.maxTagLength, `The tag "${clip(problem.raw.slice(0, 40))}" is longer than ${String(limits.maxTagLength)} characters.`, location);
+		case "TV_E_TAG_SYNTAX": return new TvError("TV_E_TAG_SYNTAX", `The tag "${problem.raw}" does not set valid delimiters.`, {
 			location,
 			hint: "A tag between equals signs changes the delimiters: write the new start and end separated by a space, for example {=[[ ]]=}. They must not be empty, contain spaces or contain each other.",
 			details: { tag: problem.raw }
@@ -4688,7 +4688,7 @@ function lexProblem(problem, location, limits) {
 	}
 }
 /**
-* Reads the template. Throws `DV_E_TEMPLATE_INVALID` with every problem of its tags and sections
+* Reads the template. Throws `TV_E_TEMPLATE_INVALID` with every problem of its tags and sections
 * (up to `limits.maxErrors`), and the package, ZIP, XML and limit errors of the layers below.
 */
 function analyzeTemplate(bytes, limits, delimiters = DEFAULT_DELIMITERS) {
@@ -4720,7 +4720,7 @@ function analyzeTemplate(bytes, limits, delimiters = DEFAULT_DELIMITERS) {
 						tag: clip(raw.raw),
 						position: parsed.position + 1 + Math.max(0, raw.raw.indexOf(raw.inner))
 					};
-					report(parsed.code === "DV_E_LIMIT_EXCEEDED" ? limitError("maxExpressionDepth", limits.maxExpressionDepth, `${parsed.message} (in "${clip(raw.raw)}")`, at(raw.start)) : new DvError(parsed.code, `${parsed.message} (in "${clip(raw.raw)}")`, {
+					report(parsed.code === "TV_E_LIMIT_EXCEEDED" ? limitError("maxExpressionDepth", limits.maxExpressionDepth, `${parsed.message} (in "${clip(raw.raw)}")`, at(raw.start)) : new TvError(parsed.code, `${parsed.message} (in "${clip(raw.raw)}")`, {
 						location: at(raw.start),
 						hint: parsed.hint,
 						details
@@ -4732,7 +4732,7 @@ function analyzeTemplate(bytes, limits, delimiters = DEFAULT_DELIMITERS) {
 					const problem = checkFormatter(call);
 					if (problem === null) continue;
 					formatterOk = false;
-					report(new DvError(problem.code, `${problem.message} (in "${clip(raw.raw)}")`, {
+					report(new TvError(problem.code, `${problem.message} (in "${clip(raw.raw)}")`, {
 						location: at(raw.start),
 						hint: problem.hint,
 						details: {
@@ -4818,7 +4818,7 @@ function analyzeTemplate(bytes, limits, delimiters = DEFAULT_DELIMITERS) {
 	if (problems.length > 0) {
 		const first = problems[0];
 		const count = problems.length;
-		throw new DvError("DV_E_TEMPLATE_INVALID", count === 1 ? `The template has a problem: ${first.message}` : `The template has ${String(count)}${full() ? " or more" : ""} problems. The first: ${first.message}`, {
+		throw new TvError("TV_E_TEMPLATE_INVALID", count === 1 ? `The template has a problem: ${first.message}` : `The template has ${String(count)}${full() ? " or more" : ""} problems. The first: ${first.message}`, {
 			location: first.location,
 			hint: `Fix the problems listed in "errors"; each one has its place in the document and a hint. The first: ${first.hint}`,
 			details: {
@@ -4877,7 +4877,7 @@ function presentationTrees(children, stories, slideSections, droppedShapes, repo
 			const closeShape = aloneInShape(section.close, closeStory);
 			if (openShape !== void 0 && closeShape !== void 0 && openShape !== closeShape) {
 				if (insideOther) {
-					report(new DvError("DV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides, but it is inside a section that does not.`, {
+					report(new TvError("TV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides, but it is inside a section that does not.`, {
 						location: section.open.info.location,
 						hint: "A section that repeats slides can only be inside other sections that repeat slides. Put the outer section in shapes of its own too.",
 						details: { tag: section.open.info.raw }
@@ -4887,7 +4887,7 @@ function presentationTrees(children, stories, slideSections, droppedShapes, repo
 				const from = openStory.slide ?? 0;
 				const to = closeStory.slide ?? 0;
 				if (from <= lastSlide || to < from) {
-					report(new DvError("DV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides that another section of the same level also repeats.`, {
+					report(new TvError("TV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides that another section of the same level also repeats.`, {
 						location: section.open.info.location,
 						hint: "Let each section that repeats slides start on a slide after the last slide of the one before it, or nest one inside the other.",
 						details: { tag: section.open.info.raw }
@@ -4902,7 +4902,7 @@ function presentationTrees(children, stories, slideSections, droppedShapes, repo
 				continue;
 			}
 			if (openStory !== closeStory) {
-				report(new DvError("DV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" opens and closes on different slides, but its tags do not each fill a shape of their own.`, {
+				report(new TvError("TV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" opens and closes on different slides, but its tags do not each fill a shape of their own.`, {
 					location: section.open.info.location,
 					hint: `To repeat slides, put ${section.open.info.raw} alone in a shape on the first slide and {/${section.open.info.path}} alone in another shape on the last slide; otherwise keep the section within one slide or its notes.`,
 					details: { tag: section.open.info.raw }
@@ -4920,7 +4920,7 @@ function presentationTrees(children, stories, slideSections, droppedShapes, repo
 			const openStory = storyOf.get(section.open);
 			const openShape = aloneInShape(section.open, openStory);
 			const closeShape = aloneInShape(section.close, storyOf.get(section.close));
-			if (insideOther && openShape !== void 0 && closeShape !== void 0 && openShape !== closeShape) report(new DvError("DV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides, but it is inside a section that does not.`, {
+			if (insideOther && openShape !== void 0 && closeShape !== void 0 && openShape !== closeShape) report(new TvError("TV_E_SECTION_PLACEMENT", `The section "${section.open.info.raw}" repeats slides, but it is inside a section that does not.`, {
 				location: section.open.info.location,
 				hint: "A section that repeats slides can only be inside other sections that repeat slides.",
 				details: { tag: section.open.info.raw }
@@ -4939,7 +4939,7 @@ function delimitersOption(options) {
 	if (value === void 0) return DEFAULT_DELIMITERS;
 	const start = value !== null && typeof value === "object" ? value.start : void 0;
 	const end = value !== null && typeof value === "object" ? value.end : void 0;
-	if (typeof start !== "string" || typeof end !== "string") throw new DvError("DV_E_INVALID_OPTION", "Option \"delimiters\" must be an object with \"start\" and \"end\" strings.", {
+	if (typeof start !== "string" || typeof end !== "string") throw new TvError("TV_E_INVALID_OPTION", "Option \"delimiters\" must be an object with \"start\" and \"end\" strings.", {
 		hint: "Pass for example { delimiters: { start: '{{', end: '}}' } }.",
 		details: { option: "delimiters" }
 	});
@@ -4947,7 +4947,7 @@ function delimitersOption(options) {
 		start,
 		end
 	});
-	if (problem !== null) throw new DvError("DV_E_INVALID_OPTION", `Option "delimiters" is not valid: ${problem}.`, {
+	if (problem !== null) throw new TvError("TV_E_INVALID_OPTION", `Option "delimiters" is not valid: ${problem}.`, {
 		hint: "Use two different strings without spaces, such as { start: '[[', end: ']]' }.",
 		details: { option: "delimiters" }
 	});
@@ -4959,8 +4959,8 @@ function delimitersOption(options) {
 /** Validates the options shared by inspect and render, and returns the limits. */
 function checkOptions(options, names = OPTION_NAMES$1, what = "inspect") {
 	if (options === void 0) return resolveLimits(void 0);
-	if (options === null || typeof options !== "object" || Array.isArray(options)) throw new DvError("DV_E_INVALID_OPTION", `The options of ${what} must be an object.`, { hint: "Pass an object such as { limits: { maxTags: 1000 } }, or no options." });
-	for (const key of Object.keys(options)) if (!names.includes(key)) throw new DvError("DV_E_INVALID_OPTION", `Unknown option "${clip(key)}".`, {
+	if (options === null || typeof options !== "object" || Array.isArray(options)) throw new TvError("TV_E_INVALID_OPTION", `The options of ${what} must be an object.`, { hint: "Pass an object such as { limits: { maxTags: 1000 } }, or no options." });
+	for (const key of Object.keys(options)) if (!names.includes(key)) throw new TvError("TV_E_INVALID_OPTION", `Unknown option "${clip(key)}".`, {
 		hint: `Known options: ${names.join(", ")}.`,
 		details: {
 			option: clip(key),
@@ -4976,15 +4976,15 @@ function checkOptions(options, names = OPTION_NAMES$1, what = "inspect") {
 * tables and notes of a presentation, and in the text cells of every sheet of a workbook. Nothing
 * is rendered.
 *
-* Throws {@link DvError}: `DV_E_TEMPLATE_INVALID` lists every problem with a tag or section in
+* Throws {@link TvError}: `TV_E_TEMPLATE_INVALID` lists every problem with a tag or section in
 * `errors` (up to `limits.maxErrors`), each with its code, place and hint;
-* `DV_E_NOT_SUPPORTED` for other formats; ZIP, XML, package and limit errors for damaged or
+* `TV_E_NOT_SUPPORTED` for other formats; ZIP, XML, package and limit errors for damaged or
 * hostile files.
 *
 * @example
 * ```ts
 * import { readFileSync } from 'node:fs';
-* import { inspect } from 'docvane';
+* import { inspect } from 'tplvane';
 *
 * const result = inspect(readFileSync('offer.docx'));
 * for (const tag of result.tags) console.log(tag.raw, '-', tag.location.description);
@@ -4992,7 +4992,7 @@ function checkOptions(options, names = OPTION_NAMES$1, what = "inspect") {
 * ```
 */
 function inspect(template, options) {
-	if (!(template instanceof Uint8Array)) throw new DvError("DV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example inspect(readFileSync(\"offer.docx\")) or inspect(new Uint8Array(await file.arrayBuffer()))." });
+	if (!(template instanceof Uint8Array)) throw new TvError("TV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example inspect(readFileSync(\"offer.docx\")) or inspect(new Uint8Array(await file.arrayBuffer()))." });
 	const analysis = analyzeTemplate(template, checkOptions(options), delimitersOption(options));
 	const tags = [];
 	const sections = [];
@@ -5783,7 +5783,7 @@ var TagEvaluator = class {
 		const first = path.split(".")[0] ?? path;
 		const close = suggest(missingName, !scopes.some((scope) => ownValue(scope, first) !== void 0) ? availableNames(scopes) : where.available);
 		const here = where.available.length > 0 ? ` The data has here: ${where.available.map(clip).join(", ")}.` : "";
-		this.problem(new DvError("DV_E_MISSING_FIELD", `The data has no "${clip(path)}", which ${tag.info.raw.length > 60 ? "a tag" : `"${clip(tag.info.raw)}"`} needs.`, {
+		this.problem(new TvError("TV_E_MISSING_FIELD", `The data has no "${clip(path)}", which ${tag.info.raw.length > 60 ? "a tag" : `"${clip(tag.info.raw)}"`} needs.`, {
 			location: tag.info.location,
 			hint: `${close.length > 0 ? `Did you mean ${close.map((c) => `"${c}"`).join(" or ")}? ` : ""}Add "${clip(path)}" to the data, ${tag.info.kind === "value" ? "give the tag a default (| default(\"-\")), " : ""}or render with { missing: "empty" }.${here}`,
 			details: {
@@ -5806,7 +5806,7 @@ var TagEvaluator = class {
 				pointer: clip(pointerOf(path))
 			};
 		})() : {};
-		this.problem(new DvError("DV_E_INVALID_VALUE", message, {
+		this.problem(new TvError("TV_E_INVALID_VALUE", message, {
 			location: tag.info.location,
 			hint,
 			details: {
@@ -6264,7 +6264,7 @@ const EMU_PER_TWIP = 635;
 const MAX_IMAGE_CM = 1e3;
 const isWml = (e, local) => WML_NAMESPACES.has(e.ns) && (local === void 0 || e.local === local);
 function placement(tag, message, hint) {
-	return new DvError("DV_E_SECTION_PLACEMENT", message, {
+	return new TvError("TV_E_SECTION_PLACEMENT", message, {
 		location: tag.info.location,
 		hint,
 		details: { tag: tag.info.raw }
@@ -6434,7 +6434,7 @@ var StoryRenderer = class extends TagEvaluator {
 		const problems = [];
 		for (const section of sectionsOf(this.story.tree)) {
 			const unit = unitOf(section, this.anchors, (e, local) => this.isText(e, local));
-			if (unit instanceof DvError) {
+			if (unit instanceof TvError) {
 				problems.push(unit);
 				continue;
 			}
@@ -6500,7 +6500,7 @@ var StoryRenderer = class extends TagEvaluator {
 	/** A style of the template by name, with a warning when the template has none. */
 	style(name, type, tag) {
 		const style = styleNamed(this.ctx.styles, name, type);
-		if (style === void 0) this.warn("DV_W_STYLE_MISSING", `The template has no ${type} style "${name}", so ${type === "paragraph" ? "these paragraphs keep the style of the tag’s paragraph" : "this text keeps the formatting of the tag"}.`, `Add a ${type} style named "${name}" to the template (for example by using it once in Word or LibreOffice) to control how it looks.`, tag);
+		if (style === void 0) this.warn("TV_W_STYLE_MISSING", `The template has no ${type} style "${name}", so ${type === "paragraph" ? "these paragraphs keep the style of the tag’s paragraph" : "this text keeps the formatting of the tag"}.`, `Add a ${type} style named "${name}" to the template (for example by using it once in Word or LibreOffice) to control how it looks.`, tag);
 		return style?.id;
 	}
 	/** A hyperlink run in place of the anchor. */
@@ -6565,7 +6565,7 @@ var StoryRenderer = class extends TagEvaluator {
 						this.ctx.collect.add(source);
 						return null;
 					}
-					return bad(`The image "${clip(source)}" is an address, and docvane does not download anything by itself.`, "Pass the bytes or a data URL, or use renderAsync with a fetchImage function that you control.");
+					return bad(`The image "${clip(source)}" is an address, and tplvane does not download anything by itself.`, "Pass the bytes or a data URL, or use renderAsync with a fetchImage function that you control.");
 				}
 				bytes = fetched;
 			} else return bad("The value of an image tag is text, but not a data URL or an http(s) address.", "Pass the bytes (Uint8Array), a data URL, or { data, width, height, alt }.");
@@ -6786,7 +6786,7 @@ var StoryRenderer = class extends TagEvaluator {
 		if (this.valueAnchors.get(e) !== void 0) return null;
 		if (this.droppedAnchors.has(e) || this.droppedElements.has(e)) return null;
 		if (copy && this.dropInCopy(e)) return null;
-		if (copy && isWml(e) && (e.local === "footnoteReference" || e.local === "endnoteReference")) throw new DvError("DV_E_NOT_SUPPORTED", `A ${e.local === "footnoteReference" ? "footnote" : "endnote"} is in content that repeats; notes are not copied with repeated content.`, {
+		if (copy && isWml(e) && (e.local === "footnoteReference" || e.local === "endnoteReference")) throw new TvError("TV_E_NOT_SUPPORTED", `A ${e.local === "footnoteReference" ? "footnote" : "endnote"} is in content that repeats; notes are not copied with repeated content.`, {
 			location: { part: this.story.part },
 			hint: "Move the note out of the repeated rows or paragraphs, or write its text in the repeated content itself.",
 			details: { element: e.local }
@@ -7090,7 +7090,7 @@ var Resources = class {
 		const same = list.find((m) => m.bytes.length === bytes.length && m.bytes.every((b, i) => b === bytes[i]));
 		if (same !== void 0) return same.partName;
 		if (this.mediaParts.length >= this.limits.maxImages) throw limitError("maxImages", this.limits.maxImages, `The document would get more than ${String(this.limits.maxImages)} different images.`);
-		const name = this.newPartName(this.mediaFolder, "docvane", info.extension);
+		const name = this.newPartName(this.mediaFolder, "tplvane", info.extension);
 		const media = {
 			partName: name,
 			bytes,
@@ -7278,7 +7278,7 @@ var SlideRenderer = class extends StoryRenderer {
 			this.imageAnchors.delete(anchor);
 			const shape = shapeOf(tag.paragraph.element);
 			if (shape === void 0 || shapeText(shape, this.story.paragraphs).trim() !== tag.info.raw) {
-				problems.push(new DvError("DV_E_TAG_PLACEMENT", `The image tag "${clip(tag.info.raw)}" shares its shape with other text.`, {
+				problems.push(new TvError("TV_E_TAG_PLACEMENT", `The image tag "${clip(tag.info.raw)}" shares its shape with other text.`, {
 					location: tag.info.location,
 					hint: "On a slide, an image takes the place of a shape: put the image tag alone in a shape of the size the image should have.",
 					details: { tag: clip(tag.info.raw) }
@@ -7286,7 +7286,7 @@ var SlideRenderer = class extends StoryRenderer {
 				continue;
 			}
 			if (frameOf(shape) === null) {
-				problems.push(new DvError("DV_E_TAG_PLACEMENT", `The shape of the image tag "${clip(tag.info.raw)}" has no position and size of its own.`, {
+				problems.push(new TvError("TV_E_TAG_PLACEMENT", `The shape of the image tag "${clip(tag.info.raw)}" has no position and size of its own.`, {
 					location: tag.info.location,
 					hint: "Use a text box, or move or resize the placeholder once, so that the shape has its own position and size.",
 					details: { tag: clip(tag.info.raw) }
@@ -7535,10 +7535,10 @@ function renderPresentation(analysis, ctx, prepared, data) {
 			entries.push(originals.get(ref.id) ?? "");
 			continue;
 		}
-		const part = ctx.resources.newPartName("/ppt/slides/", "docvane", "xml");
+		const part = ctx.resources.newPartName("/ppt/slides/", "tplvane", "xml");
 		ctx.resources.addOverride(part, pkg.contentType(ref.part) ?? "application/vnd.openxmlformats-officedocument.presentationml.slide+xml");
 		const owned = pkg.relationships(ref.part).find((r) => !r.external && SLIDE_OWNED.test(r.type));
-		if (owned !== void 0) throw new DvError("DV_E_NOT_SUPPORTED", `Slide ${String(instance.slide)} cannot be repeated: it has a part of its own (${owned.type.slice(owned.type.lastIndexOf("/") + 1)}) that a copy would share.`, {
+		if (owned !== void 0) throw new TvError("TV_E_NOT_SUPPORTED", `Slide ${String(instance.slide)} cannot be repeated: it has a part of its own (${owned.type.slice(owned.type.lastIndexOf("/") + 1)}) that a copy would share.`, {
 			location: {
 				part: ref.part,
 				slide: instance.slide
@@ -7549,7 +7549,7 @@ function renderPresentation(analysis, ctx, prepared, data) {
 		const moved = /* @__PURE__ */ new Map();
 		let notesPart;
 		if (notes !== void 0) {
-			notesPart = ctx.resources.newPartName("/ppt/notesSlides/", "docvane", "xml");
+			notesPart = ctx.resources.newPartName("/ppt/notesSlides/", "tplvane", "xml");
 			ctx.resources.addOverride(notesPart, pkg.contentType(notes.part) ?? "application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml");
 			moved.set(partKey(notes.part), notesPart);
 			const notesRels = copiedRelationships(pkg, notes.part, notesPart, /* @__PURE__ */ new Map([[partKey(ref.part), part]]));
@@ -7641,14 +7641,14 @@ const DOS_DATE = 33;
 const DOS_TIME = 0;
 const encoder = new TextEncoder();
 function tooLarge(what) {
-	return new DvError("DV_E_LIMIT_EXCEEDED", `The document is too large to write: ${what}.`, {
+	return new TvError("TV_E_LIMIT_EXCEEDED", `The document is too large to write: ${what}.`, {
 		hint: "Split the data into several documents. Writing ZIP64 archives is not supported yet.",
 		details: { limit: "zip32" }
 	});
 }
 /**
-* Writes a ZIP archive. Throws `DV_E_INVALID_INPUT` for names that are not printable ASCII or
-* that repeat (ignoring case, as OPC requires, E-58), and `DV_E_LIMIT_EXCEEDED` when the
+* Writes a ZIP archive. Throws `TV_E_INVALID_INPUT` for names that are not printable ASCII or
+* that repeat (ignoring case, as OPC requires, E-58), and `TV_E_LIMIT_EXCEEDED` when the
 * archive would need ZIP64. `level` is the Deflate level 0–9 (0 stores every entry).
 */
 function writeZip(entries, level = 6) {
@@ -7659,12 +7659,12 @@ function writeZip(entries, level = 6) {
 	let offset = 0;
 	for (const entry of entries) {
 		const name = entry.name;
-		if (!/^[\x21-\x7e][\x20-\x7e]*$/.test(name) || name.startsWith("/") || name.length > 65535) throw new DvError("DV_E_INVALID_INPUT", `"${name.slice(0, 60)}" is not a valid ZIP item name.`, {
+		if (!/^[\x21-\x7e][\x20-\x7e]*$/.test(name) || name.startsWith("/") || name.length > 65535) throw new TvError("TV_E_INVALID_INPUT", `"${name.slice(0, 60)}" is not a valid ZIP item name.`, {
 			hint: "Item names must be printable ASCII without a leading slash. This is an internal error; please report it.",
 			details: { name: name.slice(0, 60) }
 		});
 		const key = name.toLowerCase();
-		if (seen.has(key)) throw new DvError("DV_E_INVALID_INPUT", `The ZIP item name "${name.slice(0, 60)}" is used twice.`, {
+		if (seen.has(key)) throw new TvError("TV_E_INVALID_INPUT", `The ZIP item name "${name.slice(0, 60)}" is used twice.`, {
 			hint: "Item names must be unique ignoring case. This is an internal error; please report it.",
 			details: { name: name.slice(0, 60) }
 		});
@@ -8085,7 +8085,7 @@ function planWorkbook(analysis, data, ctx) {
 function copyValue(cell, sheet, offset) {
 	if (cell.formula !== null) {
 		const { formula } = cell;
-		const unsupported = (why) => new DvError("DV_E_NOT_SUPPORTED", `The formula in ${sheet.name}!${cell.ref} cannot be copied to the repeated rows: ${why}`, {
+		const unsupported = (why) => new TvError("TV_E_NOT_SUPPORTED", `The formula in ${sheet.name}!${cell.ref} cannot be copied to the repeated rows: ${why}`, {
 			location: cellLocation(sheet, cell.ref),
 			hint: "Move the formula out of the rows that repeat, or write it as an ordinary formula with A1 references.",
 			details: { kind: formula.kind }
@@ -8103,7 +8103,7 @@ function copyValue(cell, sheet, offset) {
 		default: return cell.value;
 	}
 }
-/** Limits for files that docvane itself wrote in an earlier step: their size grew with the repetitions, which the limits of rendering already bound. */
+/** Limits for files that tplvane itself wrote in an earlier step: their size grew with the repetitions, which the limits of rendering already bound. */
 function ownLimits(limits) {
 	return { limits: {
 		...xlvaneLimits(limits),
@@ -8266,7 +8266,7 @@ const ASYNC_OPTION_NAMES = [...OPTION_NAMES, "fetchImage"];
 function option(options, name, fallback) {
 	const value = options?.[name];
 	if (value === void 0) return fallback;
-	if (typeof value !== "string") throw new DvError("DV_E_INVALID_OPTION", `Option "${name}" must be a string.`, {
+	if (typeof value !== "string") throw new TvError("TV_E_INVALID_OPTION", `Option "${name}" must be a string.`, {
 		hint: name === "locale" ? "Pass a BCP 47 locale such as \"pl-PL\"." : "Pass an IANA time zone such as \"Europe/Warsaw\".",
 		details: { option: name }
 	});
@@ -8274,7 +8274,7 @@ function option(options, name, fallback) {
 		if (name === "locale") Intl.getCanonicalLocales(value);
 		else new Intl.DateTimeFormat("en-US", { timeZone: value });
 	} catch (cause) {
-		throw new DvError("DV_E_INVALID_OPTION", `"${clip(value)}" is not a valid ${name === "locale" ? "locale" : "time zone"}.`, {
+		throw new TvError("TV_E_INVALID_OPTION", `"${clip(value)}" is not a valid ${name === "locale" ? "locale" : "time zone"}.`, {
 			hint: name === "locale" ? "Pass a BCP 47 locale such as \"pl-PL\" or \"en-US\"." : "Pass an IANA time zone such as \"Europe/Warsaw\" or \"UTC\".",
 			details: { option: name },
 			cause
@@ -8285,7 +8285,7 @@ function option(options, name, fallback) {
 function functionOption(options, name) {
 	const value = options?.[name];
 	if (value === void 0) return void 0;
-	if (typeof value !== "function") throw new DvError("DV_E_INVALID_OPTION", `Option "${name}" must be a function.`, {
+	if (typeof value !== "function") throw new TvError("TV_E_INVALID_OPTION", `Option "${name}" must be a function.`, {
 		hint: `Pass a function, or leave "${name}" out.`,
 		details: { option: name }
 	});
@@ -8297,13 +8297,13 @@ function functionOption(options, name) {
 * and the problems of the data go into `dry` instead of being thrown.
 */
 function renderCore(template, data, options, names, fetched, collect, dry) {
-	if (!(template instanceof Uint8Array)) throw new DvError("DV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example render(readFileSync(\"offer.docx\"), data)." });
+	if (!(template instanceof Uint8Array)) throw new TvError("TV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example render(readFileSync(\"offer.docx\"), data)." });
 	const limits = checkOptions(options, names, dry?.what ?? "render");
 	const locale = option(options, "locale", "en-US");
 	const timeZone = option(options, "timeZone", "UTC");
 	const onWarning = functionOption(options, "onWarning");
 	const missing = options?.missing ?? "error";
-	if (missing !== "error" && missing !== "empty") throw new DvError("DV_E_INVALID_OPTION", "Option \"missing\" must be \"error\" or \"empty\".", {
+	if (missing !== "error" && missing !== "empty") throw new TvError("TV_E_INVALID_OPTION", "Option \"missing\" must be \"error\" or \"empty\".", {
 		hint: "Leave it out to report missing fields, or pass \"empty\" to show nothing for them.",
 		details: { option: "missing" }
 	});
@@ -8329,7 +8329,7 @@ function renderCore(template, data, options, names, fetched, collect, dry) {
 			dry.problems = evalCtx.problems;
 			return /* @__PURE__ */ new Uint8Array(0);
 		}
-		if (evalCtx.problems.length > 0) throw aggregate("DV_E_DATA_INVALID", evalCtx.problems, evalCtx.problems.length >= limits.maxErrors);
+		if (evalCtx.problems.length > 0) throw aggregate("TV_E_DATA_INVALID", evalCtx.problems, evalCtx.problems.length >= limits.maxErrors);
 		return applyWorkbook(template, plan, limits);
 	}
 	const { zip } = analysis.docx;
@@ -8342,7 +8342,7 @@ function renderCore(template, data, options, names, fetched, collect, dry) {
 	});
 	const pptx = analysis.docx.format === "pptx";
 	const { prepared, problems: placement } = prepareStories(analysis, ctx);
-	if (placement.length > 0) throw aggregate("DV_E_TEMPLATE_INVALID", placement, false);
+	if (placement.length > 0) throw aggregate("TV_E_TEMPLATE_INVALID", placement, false);
 	const changed = /* @__PURE__ */ new Map();
 	const partNames = /* @__PURE__ */ new Map();
 	if (pptx) for (const [part, xml] of renderPresentation(analysis, ctx, prepared, data)) {
@@ -8359,7 +8359,7 @@ function renderCore(template, data, options, names, fetched, collect, dry) {
 		return /* @__PURE__ */ new Uint8Array(0);
 	}
 	if (collect !== void 0 && ctx.problems.length === 0) return /* @__PURE__ */ new Uint8Array(0);
-	if (ctx.problems.length > 0) throw aggregate("DV_E_DATA_INVALID", ctx.problems, ctx.problems.length >= limits.maxErrors);
+	if (ctx.problems.length > 0) throw aggregate("TV_E_DATA_INVALID", ctx.problems, ctx.problems.length >= limits.maxErrors);
 	const extra = ctx.resources.parts();
 	const numbering = ctx.numbering.changed();
 	if (numbering !== null) {
@@ -8378,7 +8378,7 @@ function renderCore(template, data, options, names, fetched, collect, dry) {
 		}
 	}
 	ctx.output += ctx.resources.mediaBytes;
-	if (ctx.output > limits.maxOutputBytes) throw new DvError("DV_E_LIMIT_EXCEEDED", `The result would be larger than ${String(limits.maxOutputBytes)} (XML characters and image bytes).`, {
+	if (ctx.output > limits.maxOutputBytes) throw new TvError("TV_E_LIMIT_EXCEEDED", `The result would be larger than ${String(limits.maxOutputBytes)} (XML characters and image bytes).`, {
 		hint: `If you trust this template and data, raise the limit, for example { limits: { maxOutputBytes: ${String(limits.maxOutputBytes * 4)} } }.`,
 		details: {
 			limit: "maxOutputBytes",
@@ -8442,17 +8442,17 @@ function renderCore(template, data, options, names, fetched, collect, dry) {
 * value is escaped, nothing in the template can run code, nothing is downloaded, and the output is
 * limited.
 *
-* Throws {@link DvError}: `DV_E_TEMPLATE_INVALID` for problems of the template (the same as
-* {@link inspect} reports, plus `DV_E_SECTION_PLACEMENT`), `DV_E_DATA_INVALID` listing every
+* Throws {@link TvError}: `TV_E_TEMPLATE_INVALID` for problems of the template (the same as
+* {@link inspect} reports, plus `TV_E_SECTION_PLACEMENT`), `TV_E_DATA_INVALID` listing every
 * missing field and invalid value in `errors` (an image given as an address is one: use
-* {@link renderAsync}), `DV_E_LIMIT_EXCEEDED`, and the file errors of `inspect`.
+* {@link renderAsync}), `TV_E_LIMIT_EXCEEDED`, and the file errors of `inspect`.
 *
 * @example
 * ```ts
 * import { readFileSync, writeFileSync } from 'node:fs';
-* import { render } from 'docvane';
+* import { render } from 'tplvane';
 *
-* // The template and image of examples/offer in the docvane repository.
+* // The template and image of examples/offer in the tplvane repository.
 * const result = render(readFileSync('offer.docx'), {
 *   logo: readFileSync('logo.png'),
 *   number: '2026/11/001',
@@ -8476,14 +8476,14 @@ function render(template, data, options) {
 /**
 * Like {@link render}, but images given as http(s) addresses are fetched first with
 * `options.fetchImage`, a function you pass and control, once per distinct address; then the
-* document is rendered as by `render`. docvane makes no connection itself: without `fetchImage`,
-* an address in the data is reported as `DV_E_INVALID_VALUE`. A failing `fetchImage` gives
-* `DV_E_IMAGE_FETCH` with the address; its bytes are checked like any image.
+* document is rendered as by `render`. tplvane makes no connection itself: without `fetchImage`,
+* an address in the data is reported as `TV_E_INVALID_VALUE`. A failing `fetchImage` gives
+* `TV_E_IMAGE_FETCH` with the address; its bytes are checked like any image.
 *
 * @example
 * ```ts
 * import { readFileSync } from 'node:fs';
-* import { renderAsync } from 'docvane';
+* import { renderAsync } from 'tplvane';
 *
 * const result = await renderAsync(readFileSync('offer.docx'), { logo: 'https://cdn.example.com/logo.png' }, {
 *   async fetchImage(url) {
@@ -8501,7 +8501,7 @@ async function renderAsync(template, data, options) {
 		const urls = /* @__PURE__ */ new Set();
 		renderCore(template, data, options, ASYNC_OPTION_NAMES, fetched, urls);
 		const limits = checkOptions(options, ASYNC_OPTION_NAMES, "render");
-		if (urls.size > limits.maxImages) throw new DvError("DV_E_LIMIT_EXCEEDED", `The data has more than ${String(limits.maxImages)} image addresses.`, {
+		if (urls.size > limits.maxImages) throw new TvError("TV_E_LIMIT_EXCEEDED", `The data has more than ${String(limits.maxImages)} image addresses.`, {
 			hint: "Pass fewer images, or raise limits.maxImages if you trust the data.",
 			details: {
 				limit: "maxImages",
@@ -8514,17 +8514,17 @@ async function renderAsync(template, data, options) {
 			try {
 				bytes = await fetchImage(url);
 			} catch (cause) {
-				throw new DvError("DV_E_IMAGE_FETCH", `fetchImage failed for "${clip(url)}".`, {
+				throw new TvError("TV_E_IMAGE_FETCH", `fetchImage failed for "${clip(url)}".`, {
 					hint: "Check the address and your fetchImage function; the error it threw is in \"cause\".",
 					details: { url: clip(url) },
 					cause
 				});
 			}
-			if (!(bytes instanceof Uint8Array) && !(bytes instanceof ArrayBuffer)) throw new DvError("DV_E_IMAGE_FETCH", `fetchImage returned no bytes for "${clip(url)}".`, {
+			if (!(bytes instanceof Uint8Array) && !(bytes instanceof ArrayBuffer)) throw new TvError("TV_E_IMAGE_FETCH", `fetchImage returned no bytes for "${clip(url)}".`, {
 				hint: "Return a Uint8Array or an ArrayBuffer from fetchImage.",
 				details: { url: clip(url) }
 			});
-			if (bytes.byteLength > limits.maxImageBytes) throw new DvError("DV_E_LIMIT_EXCEEDED", `The image fetched from "${clip(url)}" has more than ${String(limits.maxImageBytes)} bytes.`, {
+			if (bytes.byteLength > limits.maxImageBytes) throw new TvError("TV_E_LIMIT_EXCEEDED", `The image fetched from "${clip(url)}" has more than ${String(limits.maxImageBytes)} bytes.`, {
 				hint: "Use a smaller image, or raise limits.maxImageBytes if you trust the source.",
 				details: {
 					limit: "maxImageBytes",
@@ -8533,7 +8533,7 @@ async function renderAsync(template, data, options) {
 				}
 			});
 			total += bytes.byteLength;
-			if (total > limits.maxInputBytes) throw new DvError("DV_E_LIMIT_EXCEEDED", `The images fetched have more than ${String(limits.maxInputBytes)} bytes in all.`, {
+			if (total > limits.maxInputBytes) throw new TvError("TV_E_LIMIT_EXCEEDED", `The images fetched have more than ${String(limits.maxInputBytes)} bytes in all.`, {
 				hint: "Use fewer or smaller images, or raise limits.maxInputBytes if you trust the sources.",
 				details: {
 					limit: "maxInputBytes",
@@ -8547,7 +8547,7 @@ async function renderAsync(template, data, options) {
 }
 /** Renders without writing a file, for validate (D-047). Throws only for problems of the input, the options, the file and the template. */
 function dryRender(template, data, options, what) {
-	if (!(template instanceof Uint8Array)) throw new DvError("DV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: `Read the file into bytes first, for example ${what}(readFileSync("offer.docx"), data).` });
+	if (!(template instanceof Uint8Array)) throw new TvError("TV_E_INVALID_INPUT", "The template must be a Uint8Array (a Node.js Buffer is one).", { hint: `Read the file into bytes first, for example ${what}(readFileSync("offer.docx"), data).` });
 	const dry = {
 		problems: [],
 		warnings: [],
@@ -8584,18 +8584,18 @@ function cellText(cell) {
 * `=formula`. Pictures and other objects in text show as `[object]`. Use it to check a rendered
 * result without an office application.
 *
-* Throws {@link DvError} for input that is not such a file, as {@link inspect} does.
+* Throws {@link TvError} for input that is not such a file, as {@link inspect} does.
 *
 * @example
 * ```ts
 * import { readFileSync } from 'node:fs';
-* import { preview } from 'docvane';
+* import { preview } from 'tplvane';
 *
 * console.log(preview(readFileSync('offer-filled.docx')).text);
 * ```
 */
 function preview(document, options) {
-	if (!(document instanceof Uint8Array)) throw new DvError("DV_E_INVALID_INPUT", "The document must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example preview(readFileSync(\"offer-filled.docx\"))." });
+	if (!(document instanceof Uint8Array)) throw new TvError("TV_E_INVALID_INPUT", "The document must be a Uint8Array (a Node.js Buffer is one).", { hint: "Read the file into bytes first, for example preview(readFileSync(\"offer-filled.docx\"))." });
 	const limits = checkOptions(options, ["limits"], "preview");
 	const docx = openDocx(document, limits);
 	const parts = [];
@@ -8750,7 +8750,7 @@ function schemaWarning(issue, where) {
 	const path = dataPathOf(issue.path);
 	const name = path === "" ? "The data" : `"${clip(path)}"`;
 	return {
-		code: "DV_W_DATA_SCHEMA",
+		code: "TV_W_DATA_SCHEMA",
 		message: issue.kind === "missing" ? `${name} is missing; the schema of the template needs it (${issue.expected}), but render does not use it with this data.` : `${name} is ${issue.found === "null" ? "null" : `${/^[aeiou]/.test(issue.found ?? "value") ? "an" : "a"} ${issue.found ?? "value"}`}, but the schema of the template expects ${issue.expected}; render accepts it with this data.`,
 		location: where,
 		hint: issue.kind === "missing" ? "Nothing fails now. Add the field if the section that uses it can be shown with other data." : "Nothing fails now. Pass the kind the schema names, so that the data also fits other templates and tools that read the schema.",
@@ -8781,16 +8781,16 @@ function foundOutside(data, path) {
 * of its tag in the template, the path of the field in the data (`details.dataPath` such as
 * `items[1].name`, `details.pointer` such as `/items/1/name`) and, for a missing field, the fields
 * that are there (`details.available`). The data is also checked against the JSON Schema that
-* {@link inspect} returns; what does not fit it but does not fail render is a `DV_W_DATA_SCHEMA`
+* {@link inspect} returns; what does not fit it but does not fail render is a `TV_W_DATA_SCHEMA`
 * warning. Images given as addresses are not fetched and count as valid.
 *
-* Throws {@link DvError} only for problems of the input, the options, the file and the template
-* (`DV_E_TEMPLATE_INVALID` and the file errors of `inspect`), and for limits.
+* Throws {@link TvError} only for problems of the input, the options, the file and the template
+* (`TV_E_TEMPLATE_INVALID` and the file errors of `inspect`), and for limits.
 *
 * @example
 * ```ts
 * import { readFileSync } from 'node:fs';
-* import { validate } from 'docvane';
+* import { validate } from 'tplvane';
 *
 * const result = validate(readFileSync('offer.docx'), { customer: {}, items: [{ name: 'Desk' }] });
 * if (!result.valid) {
@@ -8830,7 +8830,7 @@ function validate(template, data, options) {
 * @example
 * ```ts
 * import { readFileSync } from 'node:fs';
-* import { templateSchema } from 'docvane';
+* import { templateSchema } from 'tplvane';
 *
 * const schema = templateSchema(readFileSync('offer.docx'), { missing: 'empty' });
 * console.log(schema['~standard'].vendor, Object.keys(schema.jsonSchema.properties ?? {}));
@@ -8842,7 +8842,7 @@ function templateSchema(template, options) {
 		jsonSchema: schema,
 		"~standard": {
 			version: 1,
-			vendor: "docvane",
+			vendor: "tplvane",
 			validate(value) {
 				const result = validate(template, value, options);
 				if (result.valid) return { value };
@@ -8862,4 +8862,4 @@ function decodeSegment(segment) {
 	const text = segment.replace(/~1/g, "/").replace(/~0/g, "~");
 	return /^(0|[1-9][0-9]{0,8})$/.test(text) ? Number(text) : text;
 }
-export { renderAsync as a, delimiterProblem as c, suggest as d, DvError as f, VERSION$1 as g, isDvError as h, render as i, clip as l, WARNING_CODES as m, validate as n, ownValue as o, ERROR_CODES as p, preview as r, inspect as s, templateSchema as t, DEFAULT_LIMITS as u };
+export { renderAsync as a, delimiterProblem as c, suggest as d, ERROR_CODES as f, VERSION$1 as g, isTvError as h, render as i, clip as l, WARNING_CODES as m, validate as n, ownValue as o, TvError as p, preview as r, inspect as s, templateSchema as t, DEFAULT_LIMITS as u };

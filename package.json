@@ -1,8 +1,8 @@
 {
-  "name": "docvane-site",
+  "name": "tplvane-site",
   "private": true,
   "type": "module",
-  "description": "The website of docvane, published by GitHub Pages from docs/.",
+  "description": "The website of tplvane, published by GitHub Pages from docs/.",
   "license": "MIT",
   "engines": {
     "node": ">=22"

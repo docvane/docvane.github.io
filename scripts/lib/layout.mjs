@@ -1,17 +1,17 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // The page frame shared by every page of the site: head (with the Content-Security-Policy), header
 // with navigation, optional table of contents, and footer.
 import { escapeHtml } from './markdown.mjs';
 
-/** The address the site is published at (GitHub Pages of the organization docvane). */
-export const SITE = 'https://docvane.github.io/';
+/** The address the site is published at (GitHub Pages of the organization tplvane). */
+export const SITE = 'https://tplvane.github.io/';
 
-/** The repository of the docvane packages. */
-export const REPO = 'https://github.com/DevXord/docvane';
+/** The repository of the tplvane packages. */
+export const REPO = 'https://github.com/DevXord/tplvane';
 
 /**
  * The canonical address of a page from its path in docs/: "index.html" is left out, so a folder has
- * one address ("guide/index.html" is "https://docvane.github.io/guide/").
+ * one address ("guide/index.html" is "https://tplvane.github.io/guide/").
  */
 export function canonicalUrl(path) {
   if (path.startsWith('/') || path.includes('..')) throw new Error(`not a path inside the site: ${path}`);
@@ -19,7 +19,7 @@ export function canonicalUrl(path) {
 }
 
 /** The picture shown when a page is shared (1280 × 640 PNG; most sites do not show SVG). */
-export const SOCIAL_IMAGE = { path: 'social.png', width: 1280, height: 640, alt: 'docvane: fill Word, PowerPoint and Excel templates with one syntax' };
+export const SOCIAL_IMAGE = { path: 'social.png', width: 1280, height: 640, alt: 'tplvane: fill Word, PowerPoint and Excel templates with one syntax' };
 
 /** Content-Security-Policy of every page: nothing is loaded from other origins. */
 export const CSP = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'";
@@ -64,7 +64,7 @@ export function page({ title, description, path, root, active = '', body, toc = 
 <meta name="description" content="${escapeHtml(description)}">
 <link rel="canonical" href="${escapeHtml(url)}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="docvane">
+<meta property="og:site_name" content="tplvane">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${escapeHtml(url)}">
@@ -81,9 +81,9 @@ ${scripts.map((s) => `<script type="module" src="${s}"></script>`).join('\n')}
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="bar">
-    <a class="brand" href="${root}index.html"><span class="logo" aria-hidden="true"></span>docvane</a>
+    <a class="brand" href="${root}index.html"><span class="logo" aria-hidden="true"></span>tplvane</a>
     <span class="version" title="${source.npm ? 'Version on npm' : 'Version, not yet on npm'}">${escapeHtml(version)}</span>
-    <nav class="main-nav" aria-label="Main">${nav}<a href="${REPO}">GitHub</a><a href="https://www.npmjs.com/package/docvane">npm</a></nav>
+    <nav class="main-nav" aria-label="Main">${nav}<a href="${REPO}">GitHub</a><a href="https://www.npmjs.com/package/tplvane">npm</a></nav>
   </div>
 </header>
 <div class="layout${toc.length > 0 ? ' with-toc' : ''}${wide ? ' wide' : ''}">
@@ -93,7 +93,7 @@ ${body}
 </main>
 </div>
 <footer class="site-footer">
-  <p>docvane ${escapeHtml(version)}, MIT License. ${origin} <a href="${REPO}">Source on GitHub</a> · <a href="${REPO}/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+  <p>tplvane ${escapeHtml(version)}, MIT License. ${origin} <a href="${REPO}">Source on GitHub</a> · <a href="${REPO}/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
 </footer>
 </body>
 </html>

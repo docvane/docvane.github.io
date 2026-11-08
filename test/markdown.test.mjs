@@ -1,4 +1,4 @@
-// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for docvane.
+// Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, and adapted for tplvane.
 // node --test: the Markdown converter used for the documentation pages.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
@@ -21,13 +21,13 @@ test('drops links with unsafe schemes and keeps their text', () => {
 test('code spans keep their content as text', () => {
   assert.equal(inline('`a **b** <c>`'), '<code>a **b** &lt;c&gt;</code>');
   assert.equal(inline('``a ` b``'), '<code>a ` b</code>');
-  assert.equal(inline('_x001B_ and `DV_E_*`'), '_x001B_ and <code>DV_E_*</code>');
+  assert.equal(inline('_x001B_ and `TV_E_*`'), '_x001B_ and <code>TV_E_*</code>');
 });
 
 test('headings get GitHub anchors, unique per document', () => {
   const slug = slugger();
   assert.equal(slug('Command line in 5 minutes'), 'command-line-in-5-minutes');
-  assert.equal(slug('DV_E_FILE_EXISTS'), 'dv_e_file_exists');
+  assert.equal(slug('TV_E_FILE_EXISTS'), 'tv_e_file_exists');
   assert.equal(slug('name, id, state'), 'name-id-state');
   assert.equal(slug('Large files: streaming'), 'large-files-streaming');
   assert.equal(slug('Large files: streaming'), 'large-files-streaming-1');

@@ -1,15 +1,15 @@
-/* docvane.github.io: one stylesheet, light and dark, no external fonts.
-   Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, with the colours of docvane. */
+/* tplvane.github.io: one stylesheet, light and dark, no external fonts.
+   Copied from xlvane/xlvane.github.io (MIT), commit 9bb6269956ca7f7c051da8d77344e65aac44accd, with the colours of tplvane. */
 :root {
   --bg: #ffffff;
-  --bg-soft: #f4f8fb;
-  --bg-code: #eef4f8;
-  --fg: #0f1d2a;
-  --fg-muted: #4f6070;
-  --line: #d9e3ec;
-  --accent: #0369a1;
-  --accent-strong: #075985;
-  --accent-soft: #e0f2fe;
+  --bg-soft: #f3f9f8;
+  --bg-code: #edf6f4;
+  --fg: #0f1f1e;
+  --fg-muted: #4b625f;
+  --line: #d5e6e3;
+  --accent: #0f766e;
+  --accent-strong: #115e59;
+  --accent-soft: #ccfbf1;
   --warn: #8a5a00;
   --warn-soft: #fff4dc;
   --error: #a32020;
@@ -21,15 +21,15 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0e151b;
-    --bg-soft: #141e26;
-    --bg-code: #17232d;
-    --fg: #e3edf4;
-    --fg-muted: #93a6b5;
-    --line: #263542;
-    --accent: #38bdf8;
-    --accent-strong: #7dd3fc;
-    --accent-soft: #0b2a3c;
+    --bg: #0c1514;
+    --bg-soft: #121e1d;
+    --bg-code: #152423;
+    --fg: #e2efed;
+    --fg-muted: #92aaa6;
+    --line: #233634;
+    --accent: #2dd4bf;
+    --accent-strong: #5eead4;
+    --accent-soft: #0b2e2b;
     --warn: #f0c060;
     --warn-soft: #3a2f14;
     --error: #ff8f8f;
@@ -146,7 +146,7 @@ summary { cursor: pointer; font-weight: 600; }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 [hidden] { display: none !important; }
 
-/* docvane demo */
+/* tplvane demo */
 textarea { width: 100%; min-height: 220px; font: 0.875rem/1.5 var(--mono); padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-code); color: var(--fg); resize: vertical; }
 button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 button.primary:hover { background: var(--accent-strong); color: var(--bg); }
