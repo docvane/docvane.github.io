@@ -44,6 +44,15 @@
   <button type="button" id="sample">Use the sample offer</button>
   <span class="status" id="status" role="status"></span>
 </div>
+<div class="row">
+  <span>Tags start with</span>
+  <label class="visually-hidden" for="start">Start delimiter</label><input id="start" class="delimiter" value="{" maxlength="10" spellcheck="false" autocomplete="off">
+  <span>and end with</span>
+  <label class="visually-hidden" for="end">End delimiter</label><input id="end" class="delimiter" value="}" maxlength="10" spellcheck="false" autocomplete="off">
+  <span class="status">(for templates written with other delimiters, such as <code>{{name}}</code> or <code>[[name]]</code>)</span>
+</div>
+
+<div id="notags" class="notice warn" hidden></div>
 
 <div id="error" class="notice error" hidden></div>
 
