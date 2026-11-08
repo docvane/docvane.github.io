@@ -26,7 +26,7 @@
 <header class="site-header">
   <div class="bar">
     <a class="brand" href="../index.html"><span class="logo" aria-hidden="true"></span>tplvane</a>
-    <span class="version" title="Version, not yet on npm">1.0.0</span>
+    <span class="version" title="Version on npm">1.0.0</span>
     <nav class="main-nav" aria-label="Main"><a href="../guide/index.html" aria-current="page">Guide</a><a href="../guide/syntax.html">Syntax</a><a href="../demo/index.html">Demo</a><a href="../changelog.html">Changelog</a><a href="https://github.com/DevXord/tplvane">GitHub</a><a href="https://www.npmjs.com/package/tplvane">npm</a></nav>
   </div>
 </header>
@@ -35,9 +35,9 @@
 <main id="main">
 <nav class="guide-nav" aria-label="Guide"><a href="index.html" aria-current="page">Guide</a><a href="syntax.html">Template syntax</a><a href="errors.html">Errors and warnings</a><a href="migrating-from-docxtemplater.html">Migrating from docxtemplater</a><a href="cli-json.html">Command line JSON</a><a href="mcp.html">@tplvane/mcp (MCP server)</a><a href="agent-skill.html">Agent Skill</a></nav><article class="doc"><p>&lt;img src=&quot;https://raw.githubusercontent.com/DevXord/tplvane/main/assets/logo.svg&quot; alt=&quot;&quot; width=&quot;96&quot; height=&quot;96&quot;&gt;</p>
 <h1 id="tplvane"><a class="anchor" href="#tplvane" aria-hidden="true">#</a>tplvane</h1>
-<p><a href="https://github.com/DevXord/tplvane/actions/workflows/ci.yml/badge.svg?branch=main">![ci</a>](https://github.com/DevXord/tplvane/actions/workflows/ci.yml) <a href="https://img.shields.io/npm/v/tplvane?color=0f766e&amp;label=npm">![npm</a>](https://www.npmjs.com/package/tplvane) <a href="https://img.shields.io/badge/node-%E2%89%A522-0f766e">![node</a>](https://nodejs.org/) <a href="https://img.shields.io/badge/license-MIT-0f766e">![license</a>](https://github.com/DevXord/tplvane/blob/main/packages/tplvane/LICENSE)</p>
+<p><a href="https://github.com/DevXord/tplvane/actions/workflows/ci.yml/badge.svg?branch=main">![ci</a>](https://github.com/DevXord/tplvane/actions/workflows/ci.yml) <a href="https://img.shields.io/npm/v/tplvane?color=0f766e&amp;label=npm">![npm</a>](https://www.npmjs.com/package/tplvane) <a href="https://img.shields.io/badge/node-%E2%89%A522-0f766e">![node</a>](https://nodejs.org/) <a href="https://img.shields.io/badge/license-MIT-0f766e">![license</a>](https://github.com/DevXord/tplvane/blob/main/packages/tplvane/LICENSE) <a href="https://img.shields.io/badge/docs-tplvane.github.io-0f766e">![docs</a>](https://tplvane.github.io/)</p>
 <p>&gt; Fill Word, PowerPoint and Excel templates with one syntax, treating templates and data as untrusted.</p>
-<p>Sibling project: <a href="https://xlvane.github.io/">xlvane</a>, the Excel library tplvane uses for workbooks. Documentation: <a href="syntax.html">template syntax</a>.</p>
+<p>Sibling project: <a href="https://xlvane.github.io/">xlvane</a>, the Excel library tplvane uses for workbooks. Documentation: <a href="https://tplvane.github.io/">tplvane.github.io</a>, with the <a href="https://tplvane.github.io/guide/syntax.html">template syntax</a>.</p>
 <p>A template engine for Word, PowerPoint and Excel files, with one syntax for DOCX, PPTX and XLSX. Templates and data are treated as untrusted. MIT license, ESM only.</p>
 <p><strong>Status:</strong> 1.0.0. tplvane handles Word, PowerPoint and Excel templates: <code>inspect</code> lists their tags, loops and conditions and returns a JSON Schema of the data they need, and <code>render</code> fills them, with images, links and Markdown in documents and presentations, repeated slides, and in workbooks numbers and dates as typed cells and repeated rows whose totals follow. <code>validate</code> checks data against a template without writing a file, with the path of every problem in the data, and <code>templateSchema</code> gives the same check as a Standard Schema. <code>preview</code> returns the text of a result, and the <code>tplvane</code> command does all of this from the terminal.</p>
 <pre><code class="language-ts">import { readFileSync } from &#39;node:fs&#39;;
@@ -87,11 +87,11 @@ npx tplvane preview offer-filled.docx</code></pre>
 <p><code>render</code> writes <code>offer-filled.docx</code> (<code>--output</code> names another file; an existing file is replaced only with <code>--force</code>, by a new file renamed over it, and never through a link; <code>--dry-run</code> checks without writing; <code>--locale pl-PL</code> gives Polish numbers and dates). The image <code>&quot;logo&quot;: &quot;logo.png&quot;</code> is a file next to the data file: files must stay inside that folder, and images given as http(s) addresses are downloaded only with <code>--fetch-images</code>. With <code>--fetch-images</code>, every address in the data is requested, internal ones included, so use it only with data you trust. Templates, data files and stdin are read up to 256 MiB, and only from regular files. <code>preview</code> prints the text of the result, so it can be checked without Word.</p>
 <p>Every command takes <code>--json</code> and then prints one JSON document described in <a href="cli-json.html">docs/cli-json.md</a>. <code>tplvane help &lt;command&gt;</code> shows the options and examples. Exit codes: 0 success, 1 <code>validate</code> found problems, 2 usage error, 3 input, file, template or data error.</p>
 <h2 id="license"><a class="anchor" href="#license" aria-hidden="true">#</a>License</h2>
-<p><a href="https://github.com/DevXord/tplvane/blob/b51002257898e4ff4401d27374d05f1f4ddbf929/packages/tplvane/LICENSE">MIT</a></p><p class="source">Source: <a href="https://github.com/DevXord/tplvane/blob/b51002257898e4ff4401d27374d05f1f4ddbf929/packages/tplvane/README.md">packages/tplvane/README.md</a> (version 1.0.0)</p></article>
+<p><a href="https://github.com/DevXord/tplvane/blob/v1.0.0/packages/tplvane/LICENSE">MIT</a></p><p class="source">Source: <a href="https://github.com/DevXord/tplvane/blob/v1.0.0/packages/tplvane/README.md">packages/tplvane/README.md</a> (version 1.0.0)</p></article>
 </main>
 </div>
 <footer class="site-footer">
-  <p>tplvane 1.0.0, MIT License. Pages built from the packages of commit b510022, before their release on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
+  <p>tplvane 1.0.0, MIT License. Pages built from the packages published on npm. <a href="https://github.com/DevXord/tplvane">Source on GitHub</a> · <a href="https://github.com/DevXord/tplvane/blob/main/SECURITY.md">Reporting a vulnerability</a></p>
 </footer>
 </body>
 </html>

@@ -12,12 +12,21 @@
     "1.0.0+b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-a8DSfjtXCSvWnypoTMj8dNq6gA2+I8CHlmFYlu5Cz31JwEesIas+k32NKejQKRHfyfpyQy00srLqS8ulPpbGTw=="
   },
   "examples/offer/offer.docx": {
-    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-OtZodlN6xVn7zFF7G1yMBh3ZjH4F5YA0Jnk9iERXNBVtk/zH1WyJ6kfola//Dep2iqlwZBwuFSOiFBc1pjcKgQ=="
+    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-OtZodlN6xVn7zFF7G1yMBh3ZjH4F5YA0Jnk9iERXNBVtk/zH1WyJ6kfola//Dep2iqlwZBwuFSOiFBc1pjcKgQ==",
+    "v1.0.0": "sha512-OtZodlN6xVn7zFF7G1yMBh3ZjH4F5YA0Jnk9iERXNBVtk/zH1WyJ6kfola//Dep2iqlwZBwuFSOiFBc1pjcKgQ=="
   },
   "examples/offer/data.json": {
-    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-IwuLg+k19VfMRWaCY1HpxmzyAn9JLB82sy4e+I4j3cPxvQy3CZdTqTrfpJnmXTxf/YjrB2gB1hU9xydLNjEaMA=="
+    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-IwuLg+k19VfMRWaCY1HpxmzyAn9JLB82sy4e+I4j3cPxvQy3CZdTqTrfpJnmXTxf/YjrB2gB1hU9xydLNjEaMA==",
+    "v1.0.0": "sha512-IwuLg+k19VfMRWaCY1HpxmzyAn9JLB82sy4e+I4j3cPxvQy3CZdTqTrfpJnmXTxf/YjrB2gB1hU9xydLNjEaMA=="
   },
   "examples/offer/logo.png": {
-    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-px49mQSuSe0iEQz5/jwaY+r+cW/YEMMvRJg+lY0UavA893e3NXAWXm0eO2tImUm4mKWnLENM4ulX7UX0T7zw2w=="
+    "b51002257898e4ff4401d27374d05f1f4ddbf929": "sha512-px49mQSuSe0iEQz5/jwaY+r+cW/YEMMvRJg+lY0UavA893e3NXAWXm0eO2tImUm4mKWnLENM4ulX7UX0T7zw2w==",
+    "v1.0.0": "sha512-px49mQSuSe0iEQz5/jwaY+r+cW/YEMMvRJg+lY0UavA893e3NXAWXm0eO2tImUm4mKWnLENM4ulX7UX0T7zw2w=="
+  },
+  "tplvane": {
+    "1.0.0": "sha512-r4d1D4ALB9Lc5elGWysUIAhTyWz8lp+ivWZ15K++soRkSykRAjbSSKFAXffcQu7eeY9lZpEu41lLrGbRiXvkKg=="
+  },
+  "@tplvane/mcp": {
+    "1.0.0": "sha512-R0MMb9I5iBP/PqPV68n71nT4VyfyKoPd/JCgvMEwFi7w3f7nMAyxhn21J35FbTxAbhfdvuzIy6u1M1IYN0hx9g=="
   }
 }
